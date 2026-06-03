@@ -1,0 +1,30 @@
+<svg
+  viewBox="0 0 300 700"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- 日本列島（かなり抽象化） -->
+  <path
+    d="M180 20
+       C160 80 170 140 150 200
+       C130 260 140 320 120 380
+       C100 440 110 500 90 560
+       C70 620 80 660 60 690"
+    fill="none"
+    stroke="#222"
+    stroke-width="1.2"
+  />
+
+  <!-- 益子（栃木） -->
+  <a href="/origins/mashiko">
+    <circle cx="170" cy="260" r="4" fill="#222" />
+    <text
+      x="178"
+      y="265"
+      font-size="10"
+      fill="#222"
+      letter-spacing="0.08em"
+    >
+      益子
+    </text>
+  </a>
+</svg>

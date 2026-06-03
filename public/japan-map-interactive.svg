@@ -1,0 +1,47 @@
+<svg
+  viewBox="0 0 400 800"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- 日本列島（抽象） -->
+  <path
+    d="M260 40
+       C220 90 240 140 210 190
+       C180 240 200 300 170 350
+       C140 400 160 460 130 510
+       C100 560 120 620 90 670
+       C70 710 80 740 60 770"
+    fill="none"
+    stroke="#222"
+    stroke-width="1.4"
+  />
+
+  <!-- 北海道 -->
+  <path
+    d="M300 20 C330 30 340 60 320 80 C290 90 270 60 280 40"
+    fill="none"
+    stroke="#222"
+    stroke-width="1.2"
+  />
+
+  <!-- 九州 -->
+  <path
+    d="M120 600 C90 620 100 660 130 670"
+    fill="none"
+    stroke="#222"
+    stroke-width="1.2"
+  />
+
+  <!-- 益子 -->
+  <a href="/origins/mashiko">
+    <circle cx="210" cy="300" r="4" fill="#222" />
+    <text
+      x="218"
+      y="304"
+      font-size="11"
+      fill="#222"
+      letter-spacing="0.1em"
+    >
+      益子
+    </text>
+  </a>
+</svg>
