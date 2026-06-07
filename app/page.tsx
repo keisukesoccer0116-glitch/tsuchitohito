@@ -8,6 +8,8 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] =
     useState("すべて");
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const categories = [
     "すべて",
     "湯呑・カップ",
@@ -27,104 +29,90 @@ export default function Home() {
 
   return (
     <main style={{ padding: "100px 20px 80px" }}>
+
+
+      {/* カテゴリーメニュー */}
+      {menuOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: "70px",
+            left: 0,
+            width: "240px",
+            height: "100vh",
+            background: "#fff",
+            borderRight: "1px solid #eee",
+            padding: "24px",
+            zIndex: 999,
+          }}
+        >
+          {categories.map((label) => (
+            <div
+              key={label}
+              onClick={() => {
+                setSelectedCategory(label);
+                setMenuOpen(false);
+              }}
+              style={{
+                marginBottom: "16px",
+                cursor: "pointer",
+                fontSize: "14px",
+              }}
+            >
+              {label}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* 商品一覧 */}
       <div
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
-          display: "flex",
-          gap: "60px",
+          paddingTop:"120px",
         }}
       >
-        {/* ---------- 左：カテゴリー ---------- */}
-        <aside style={{ width: "180px" }}>
-          <h2 className="ui-text" style={{ marginBottom: "16px" }}>
-            CATEGORY
-          </h2>
-
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-            {categories.map((label) => (
-              <li
-                key={label}
-                style={{
-                  marginBottom: "10px",
-                  cursor: "pointer",
-                  fontWeight:
-                    selectedCategory === label ? 600 : 400,
-                }}
-                onClick={() =>
-                  setSelectedCategory(label)
-                }
-              >
-                <span className="ui-text">{label}</span>
-
-                <div
-                  style={{
-                    fontSize: "9px",
-                    letterSpacing: "0.3em",
-                    color: "#bbb",
-                    lineHeight: 1,
-                    userSelect: "none",
-                  }}
-                >
-                  --------------------
-                </div>
-              </li>
-            ))}
-          </ul>
-        </aside>
-
-        {/* ---------- 右：商品一覧 ---------- */}
-        <section style={{ flex: 1 }}>
-          <section style={{ marginBottom: "48px" }}>
-            <h1
-              className="title-text"
-              style={{ fontWeight: 500 }}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fill, minmax(240px, 1fr))",
+            gap: "36px",
+          }}
+        >
+          {filteredProducts.map((product) => (
+            <Link
+              key={product.id}
+              href={`/products/${product.id}`}
+              style={{ textDecoration: "none" }}
             >
-              つちとひと
-            </h1>
-          </section>
+              <div>
+                <img
+                  src={`/products/${product.id}.jpg`}
+                  alt={product.name}
+                  style={{
+                    width: "100%",
+                    aspectRatio: "1 / 1",
+                    objectFit: "cover",
+                    background: "#eee",
+                    marginBottom: "10px",
+                  }}
+                />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(240px, 1fr))",
-              gap: "36px",
-            }}
-          >
-            {filteredProducts.map((product) => (
-              <Link
-                key={product.id}
-                href={`/products/${product.id}`}
-                style={{ textDecoration: "none" }}
-              >
                 <div>
-                  <img
-                    src={`/products/${product.id}.jpg`}
-                    alt={product.name}
-                    style={{
-                      width: "100%",
-                      aspectRatio: "1 / 1",
-                      objectFit: "cover",
-                      background: "#eee",
-                      marginBottom: "10px",
-                    }}
-                  />
+                  <div className="content-text">
+                    {product.name}
+                  </div>
 
-                  <div>
-                    <div className="content-text">
-                      {product.name}
-                    </div>
-
-                    <div className="meta-text">
-                      ¥{product.price.toLocaleString()}
-                    </div>
+                  <div className="meta-text">
+                    ¥{product.price.toLocaleString()}
                   </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </main>
   );
