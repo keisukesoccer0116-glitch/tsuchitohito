@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { products } from "../../../lib/products";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -22,6 +22,23 @@ export default function ProductPage() {
   const [mainImage, setMainImage] = useState(
     product.images[0]
   );
+  const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  checkMobile();
+
+  window.addEventListener("resize", checkMobile);
+
+  return () =>
+    window.removeEventListener(
+      "resize",
+      checkMobile
+    );
+}, []);
 
   const addToCart = () => {
     const stored = localStorage.getItem("cart");
@@ -57,6 +74,7 @@ export default function ProductPage() {
           maxWidth: "1100px",
           margin: "0 auto",
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           gap: "60px",
         }}
       >
@@ -95,7 +113,7 @@ export default function ProductPage() {
         </div>
 
         {/* 右：情報 */}
-        <div style={{ width: "400px" }}>
+        <div style={{ width:  isMobile ? "100%" : "400px", }}>
           <h1 style={{ fontSize: "22px", marginBottom: "12px" }}>
             {product.name}
           </h1>
