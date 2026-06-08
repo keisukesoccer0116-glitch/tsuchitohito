@@ -76,9 +76,8 @@ export default function Home() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: "36px",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "24px",
           }}
         >
           {filteredProducts.map((product) => (
