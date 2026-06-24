@@ -51,7 +51,7 @@ export default function AboutPage() {
         >
           <h2
             style={{
-              fontSize: "22px",
+              fontSize: "15px",
               fontWeight: 400,
               marginBottom: "28px",
               color: "#222",
@@ -68,24 +68,6 @@ export default function AboutPage() {
             益子焼窯元よこやまにて修行
             <br />
             現在に至る
-          </p>
-
-          <div style={{ height: "36px" }} />
-
-          <p>
-            <strong>工房兼ギャラリー</strong>
-            <br />
-            〒321-4227
-            <br />
-            栃木県芳賀郡益子町東田井899-1
-          </p>
-
-          <div style={{ height: "24px" }} />
-
-          <p>
-            <strong>E-mail</strong>
-            <br />
-            yamaguchi.k.bd@gmail.com
           </p>
         </div>
       </div>
