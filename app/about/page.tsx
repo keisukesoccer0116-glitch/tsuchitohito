@@ -1,16 +1,16 @@
 export default function AboutPage() {
   return (
-    <main style={{ padding: "40px 20px 100px" }}>
+    <main style={{ padding: "80px 20px 100px" }}>
       <div
         style={{
           maxWidth: "640px",
           margin: "0 auto",
         }}
       >
-        {/* 中央に来るメインメッセージ */}
+        {/* メッセージ */}
         <div
           style={{
-            minHeight: "70vh",
+            minHeight: "60vh",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -19,7 +19,7 @@ export default function AboutPage() {
         >
           <p
             style={{
-              lineHeight: 1.9,
+              lineHeight: 2,
               fontSize: "16px",
             }}
           >
@@ -39,31 +39,55 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* プロフィール・略歴 */}
-        <p
+        {/* プロフィール */}
+        <div
           style={{
-            lineHeight: 1.9,
-            fontSize: "14px",
+            borderTop: "1px solid #ddd",
+            paddingTop: "40px",
             color: "#555",
+            lineHeight: 2,
+            fontSize: "15px",
           }}
         >
-          つちとひと
-          <br />
-          山口慶祐
-          <br />
-          1998年生まれ。
-          <br />
-          大学院修了後、会社勤めを経て、
-          <br />
-          益子焼窯元よこやまでの修行期間を過ごしました。
-          <br />
-          <br />
-          工房兼ギャラリー
-          <br />
-          〒111-1111
-          <br />
-          栃木県益子町555
-        </p>
+          <h2
+            style={{
+              fontSize: "22px",
+              fontWeight: 400,
+              marginBottom: "28px",
+              color: "#222",
+            }}
+          >
+            山口慶祐　Keisuke Yamaguchi
+          </h2>
+
+          <p>
+            1998年 栃木県出身
+            <br />
+            大学院修了後、会社勤めを経て
+            <br />
+            益子焼窯元よこやまにて修行
+            <br />
+            現在に至る
+          </p>
+
+          <div style={{ height: "36px" }} />
+
+          <p>
+            <strong>工房兼ギャラリー</strong>
+            <br />
+            〒321-4227
+            <br />
+            栃木県芳賀郡益子町東田井899-1
+          </p>
+
+          <div style={{ height: "24px" }} />
+
+          <p>
+            <strong>E-mail</strong>
+            <br />
+            yamaguchi.k.bd@gmail.com
+          </p>
+        </div>
       </div>
     </main>
   );
