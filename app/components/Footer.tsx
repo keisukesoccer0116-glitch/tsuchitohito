@@ -20,8 +20,8 @@ export default function Footer() {
           lineHeight: 1.8,
         }}
       >
-        <p style={{ marginBottom: "16px" }}>
-          気になることがありましたら、
+        <p style={{ marginBottom: "4px" }}>
+          問い合わせはyamaguchi.k.bd@gmail.com、または
           <br />
           Instagramのメッセージよりご連絡ください。
         </p>
