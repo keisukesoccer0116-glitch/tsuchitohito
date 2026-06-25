@@ -21,7 +21,8 @@ export default function Footer() {
         }}
       >
         <p style={{ marginBottom: "16px" }}>
-          気になることがありましたら、<br />
+          気になることがありましたら、
+          <br />
           Instagramのメッセージよりご連絡ください。
         </p>
 
@@ -38,6 +39,36 @@ export default function Footer() {
             Instagram →
           </Link>
         </p>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "24px",
+            marginBottom: "24px",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link
+            href="/legal"
+            style={{
+              color: "#555",
+              textDecoration: "none",
+            }}
+          >
+            特定商取引法に基づく表記
+          </Link>
+
+          <Link
+            href="/privacy"
+            style={{
+              color: "#555",
+              textDecoration: "none",
+            }}
+          >
+            プライバシーポリシー
+          </Link>
+        </div>
 
         <p
           style={{
