@@ -49,18 +49,9 @@ export default function AboutPage() {
             fontSize: "15px",
           }}
         >
-          <h2
-            style={{
-              fontSize: "15px",
-              fontWeight: 400,
-              marginBottom: "28px",
-              color: "#222",
-            }}
-          >
-            山口慶祐　Keisuke Yamaguchi
-          </h2>
-
           <p>
+            山口慶祐　Keisuke Yamaguchi
+            <br />
             1998年 栃木県出身
             <br />
             大学院修了後、会社勤めを経て
