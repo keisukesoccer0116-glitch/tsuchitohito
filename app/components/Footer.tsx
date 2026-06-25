@@ -21,7 +21,7 @@ export default function Footer() {
         }}
       >
         <p style={{ marginBottom: "4px" }}>
-          問い合わせはyamaguchi.k.bd@gmail.com、または
+          お問い合わせはyamaguchi.k.bd@gmail.com、または
           <br />
           Instagramのメッセージよりご連絡ください。
         </p>
