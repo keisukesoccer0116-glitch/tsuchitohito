@@ -1,6 +1,6 @@
 export default function PrivacyPage() {
   return (
-    <main style={{ maxWidth: "1000px", margin: "0 auto", padding: "80px 20px" }}>
+    <main style={{ maxWidth: "900px", margin: "0 auto", padding: "80px 20px" }}>
       <h1 style={{ fontSize: "28px", marginBottom: "40px" }}>
         プライバシーポリシー
       </h1>
