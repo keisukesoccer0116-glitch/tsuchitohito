@@ -13,6 +13,10 @@ const mincho = Zen_Old_Mincho({
 export const metadata: Metadata = {
   title: "つちとひと",
   description: "暮らしに美しさと豊かさを届ける陶器のオンラインストア",
+
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
