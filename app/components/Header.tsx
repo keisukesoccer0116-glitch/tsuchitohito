@@ -8,6 +8,16 @@ type CartItem = {
   quantity: number;
 };
 
+const categories = [
+  "すべて",
+  "湯呑・カップ",
+  "飯碗・丼",
+  "皿・プレート",
+  "鉢・ボウル",
+  "花器",
+  "その他",
+];
+
 export default function Header() {
   const [count, setCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,6 +49,16 @@ export default function Header() {
       window.removeEventListener("storage", updateCount);
   }, []);
 
+  const handleCategoryClick = (category: string) => {
+    window.dispatchEvent(
+      new CustomEvent("categoryChange", {
+        detail: category,
+      })
+    );
+
+    setMenuOpen(false);
+  };
+
   return (
     <>
       <header
@@ -62,6 +82,7 @@ export default function Header() {
             alignItems: "center",
           }}
         >
+          {/* 左側 */}
           <div
             style={{
               display: "flex",
@@ -71,6 +92,7 @@ export default function Header() {
           >
             <button
               onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="カテゴリーを開く"
               style={{
                 background: "none",
                 border: "none",
@@ -101,6 +123,7 @@ export default function Header() {
             </Link>
           </div>
 
+          {/* 右側 */}
           <nav
             style={{
               display: "flex",
@@ -124,6 +147,7 @@ export default function Header() {
         </div>
       </header>
 
+      {/* カテゴリーメニュー */}
       {menuOpen && (
         <div
           style={{
@@ -131,20 +155,35 @@ export default function Header() {
             top: "70px",
             left: 0,
             width: "260px",
-            height: "100vh",
+            height: "calc(100vh - 70px)",
             background: "#fff",
             borderRight: "1px solid #ddd",
             padding: "30px",
             zIndex: 999,
+            boxSizing: "border-box",
           }}
         >
-          <div style={{ marginBottom: "18px" }}>すべて</div>
-          <div style={{ marginBottom: "18px" }}>湯呑・カップ</div>
-          <div style={{ marginBottom: "18px" }}>飯碗・丼</div>
-          <div style={{ marginBottom: "18px" }}>皿・プレート</div>
-          <div style={{ marginBottom: "18px" }}>鉢・ボウル</div>
-          <div style={{ marginBottom: "18px" }}>花器</div>
-          <div style={{ marginBottom: "18px" }}>その他</div>
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleCategoryClick(category)}
+              style={{
+                display: "block",
+                width: "100%",
+                marginBottom: "18px",
+                padding: 0,
+                background: "none",
+                border: "none",
+                textAlign: "left",
+                fontFamily: "inherit",
+                fontSize: "14px",
+                color: "#222",
+                cursor: "pointer",
+              }}
+            >
+              {category}
+            </button>
+          ))}
         </div>
       )}
     </>

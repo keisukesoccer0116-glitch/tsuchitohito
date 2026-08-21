@@ -2,23 +2,36 @@
 
 import Link from "next/link";
 import { products } from "../lib/products";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] =
     useState("すべて");
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    const handleCategoryChange = (event: Event) => {
+      const customEvent = event as CustomEvent<string>;
 
-  const categories = [
-    "すべて",
-    "湯呑・カップ",
-    "飯碗・丼",
-    "皿・プレート",
-    "鉢・ボウル",
-    "花器",
-    "その他",
-  ];
+      setSelectedCategory(customEvent.detail);
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+
+    window.addEventListener(
+      "categoryChange",
+      handleCategoryChange
+    );
+
+    return () => {
+      window.removeEventListener(
+        "categoryChange",
+        handleCategoryChange
+      );
+    };
+  }, []);
 
   const filteredProducts =
     selectedCategory === "すべて"
@@ -29,50 +42,27 @@ export default function Home() {
 
   return (
     <main style={{ padding: "100px 20px 80px" }}>
-
-
-      {/* カテゴリーメニュー */}
-      {menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: "70px",
-            left: 0,
-            width: "240px",
-            height: "100vh",
-            background: "#fff",
-            borderRight: "1px solid #eee",
-            padding: "24px",
-            zIndex: 999,
-          }}
-        >
-          {categories.map((label) => (
-            <div
-              key={label}
-              onClick={() => {
-                setSelectedCategory(label);
-                setMenuOpen(false);
-              }}
-              style={{
-                marginBottom: "16px",
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
-            >
-              {label}
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* 商品一覧 */}
       <div
         style={{
           maxWidth: "1200px",
           margin: "0 auto",
-          paddingTop:"120px",
+          paddingTop: "120px",
         }}
       >
+        {/* 選択中カテゴリー */}
+        {selectedCategory !== "すべて" && (
+          <div
+            style={{
+              marginBottom: "32px",
+              fontSize: "14px",
+              color: "#666",
+            }}
+          >
+            {selectedCategory}
+          </div>
+        )}
+
         <div
           style={{
             display: "grid",
@@ -84,7 +74,10 @@ export default function Home() {
             <Link
               key={product.id}
               href={`/products/${product.id}`}
-              style={{ textDecoration: "none" }}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
             >
               <div>
                 <img
