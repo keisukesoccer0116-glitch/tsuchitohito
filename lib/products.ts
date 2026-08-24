@@ -138,7 +138,7 @@ export const products: Product[] = [
 
   {
     id: "gratin-black-001",
-    name: "ボウル",
+    name: "グラタン皿",
     price: 2800,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
