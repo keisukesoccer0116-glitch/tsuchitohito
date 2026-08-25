@@ -81,7 +81,7 @@ export default function Home() {
             >
               <div>
                 <img
-                  src={`/products/${product.id}.jpg`}
+                  src={product.images[0]}
                   alt={product.name}
                   style={{
                     width: "100%",
