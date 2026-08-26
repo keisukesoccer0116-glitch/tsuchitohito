@@ -135,17 +135,6 @@ export default function ProductPage() {
             {product.name}
           </h1>
 
-          {/* 産地 */}
-          <div
-            style={{
-              fontSize: "13px",
-              color: "#666",
-              marginBottom: "12px",
-            }}
-          >
-            産地：{product.origin}
-          </div>
-
           {/* 価格 */}
           <div
             style={{
