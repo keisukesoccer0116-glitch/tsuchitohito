@@ -10,25 +10,21 @@ type CartItem = {
   quantity: number;
 };
 
-const qtyBtn = {
-  width: "32px",
-  height: "32px",
-  border: "1px solid #ccc",
-  background: "#fff",
-  cursor: "pointer",
-};
-
 const shippingPrices = {
   other: 1980,
   hokkaidoKyushu: 2500,
   okinawa: 3000,
 };
 
+const giftWrappingPrice = 550;
+
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [shippingArea, setShippingArea] = useState<
     "other" | "hokkaidoKyushu" | "okinawa"
   >("other");
+  const [giftWrapping, setGiftWrapping] = useState(false);
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     const stored = localStorage.getItem("cart");
@@ -45,36 +41,49 @@ export default function CartPage() {
 
   const changeQuantity = (id: string, delta: number) => {
     const newCart = cart
-      .map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              quantity: item.quantity + delta,
-            }
-          : item
-      )
+      .map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            quantity: item.quantity + delta,
+          };
+        }
+
+        return item;
+      })
       .filter((item) => item.quantity > 0);
 
     updateCart(newCart);
   };
 
   const removeItem = (id: string) => {
-    updateCart(cart.filter((item) => item.id !== id));
+    updateCart(
+      cart.filter((item) => item.id !== id)
+    );
   };
 
   const total = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) =>
+      sum + item.price * item.quantity,
     0
   );
 
-  const shippingFee = shippingPrices[shippingArea];
+  const shippingFee =
+    shippingPrices[shippingArea];
 
-  const grandTotal = total + shippingFee;
+  const giftWrappingFee =
+    giftWrapping ? giftWrappingPrice : 0;
 
-  /* ---------- 空カート ---------- */
+  const grandTotal =
+    total + shippingFee + giftWrappingFee;
+
   if (cart.length === 0) {
     return (
-      <main style={{ padding: "120px 20px" }}>
+      <main
+        style={{
+          padding: "120px 20px",
+        }}
+      >
         <div
           style={{
             maxWidth: "520px",
@@ -121,10 +130,19 @@ export default function CartPage() {
     );
   }
 
-  /* ---------- カートあり ---------- */
   return (
-    <main style={{ padding: "80px 20px" }}>
-      <h1 style={{ marginBottom: "40px" }}>カート</h1>
+    <main
+      style={{
+        padding: "80px 20px",
+      }}
+    >
+      <h1
+        style={{
+          marginBottom: "40px",
+        }}
+      >
+        カート
+      </h1>
 
       <div
         style={{
@@ -156,8 +174,16 @@ export default function CartPage() {
               }}
             />
 
-            <div style={{ flex: 1 }}>
-              <div style={{ marginBottom: "12px" }}>
+            <div
+              style={{
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  marginBottom: "12px",
+                }}
+              >
                 {item.name}
               </div>
 
@@ -169,10 +195,19 @@ export default function CartPage() {
                 }}
               >
                 <button
-                  style={qtyBtn}
                   onClick={() =>
-                    changeQuantity(item.id, -1)
+                    changeQuantity(
+                      item.id,
+                      -1
+                    )
                   }
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    border: "1px solid #ccc",
+                    background: "#fff",
+                    cursor: "pointer",
+                  }}
                 >
                   −
                 </button>
@@ -180,10 +215,19 @@ export default function CartPage() {
                 <span>{item.quantity}</span>
 
                 <button
-                  style={qtyBtn}
                   onClick={() =>
-                    changeQuantity(item.id, 1)
+                    changeQuantity(
+                      item.id,
+                      1
+                    )
                   }
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    border: "1px solid #ccc",
+                    background: "#fff",
+                    cursor: "pointer",
+                  }}
                 >
                   ＋
                 </button>
@@ -198,12 +242,15 @@ export default function CartPage() {
             >
               ¥
               {(
-                item.price * item.quantity
+                item.price *
+                item.quantity
               ).toLocaleString()}
             </div>
 
             <button
-              onClick={() => removeItem(item.id)}
+              onClick={() =>
+                removeItem(item.id)
+              }
               style={{
                 background: "none",
                 border: "none",
@@ -216,7 +263,8 @@ export default function CartPage() {
           </div>
         ))}
 
-        {/* 配送先 */}
+        {/* 配送・ギフト・備考 */}
+
         <div
           style={{
             marginTop: "40px",
@@ -264,9 +312,119 @@ export default function CartPage() {
               沖縄
             </option>
           </select>
+
+          <div
+            style={{
+              marginTop: "28px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "15px",
+                marginBottom: "14px",
+              }}
+            >
+              ギフト包装
+            </div>
+
+            <label
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="radio"
+                name="giftWrapping"
+                checked={!giftWrapping}
+                onChange={() =>
+                  setGiftWrapping(false)
+                }
+                style={{
+                  marginRight: "8px",
+                }}
+              />
+              希望しない
+            </label>
+
+            <label
+              style={{
+                display: "block",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="radio"
+                name="giftWrapping"
+                checked={giftWrapping}
+                onChange={() =>
+                  setGiftWrapping(true)
+                }
+                style={{
+                  marginRight: "8px",
+                }}
+              />
+              ギフト包装を希望する
+              <span
+                style={{
+                  marginLeft: "8px",
+                }}
+              >
+                ＋¥550
+              </span>
+            </label>
+
+            <p
+              style={{
+                marginTop: "10px",
+                marginBottom: 0,
+                fontSize: "12px",
+                color: "#777",
+                lineHeight: 1.7,
+              }}
+            >
+              ※ギフト包装とその他の商品を同時に購入される場合は、備考欄にその旨をご記入ください。
+            </p>
+          </div>
+
+          <div
+            style={{
+              marginTop: "28px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "15px",
+                marginBottom: "12px",
+              }}
+            >
+              備考欄
+            </div>
+
+            <textarea
+              value={note}
+              onChange={(e) =>
+                setNote(e.target.value)
+              }
+              placeholder="ご希望やご連絡事項がございましたらご記入ください。"
+              rows={5}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                padding: "12px",
+                border: "1px solid #ccc",
+                background: "#fff",
+                fontSize: "14px",
+                lineHeight: 1.7,
+                resize: "vertical",
+              }}
+            />
+          </div>
         </div>
 
         {/* 金額 */}
+
         <div
           style={{
             marginTop: "40px",
@@ -285,7 +443,7 @@ export default function CartPage() {
             <span>商品合計</span>
 
             <span>
-              ¥{total.toLocaleString()}
+               ¥{total.toLocaleString()}
             </span>
           </div>
 
@@ -293,7 +451,7 @@ export default function CartPage() {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              marginBottom: "16px",
+              marginBottom: "6px",
             }}
           >
             <span>送料</span>
@@ -302,6 +460,34 @@ export default function CartPage() {
               ¥{shippingFee.toLocaleString()}
             </span>
           </div>
+
+          <p
+            style={{
+              marginTop: 0,
+              marginBottom: "16px",
+              fontSize: "12px",
+              color: "#777",
+              lineHeight: 1.7,
+            }}
+          >
+            ※通常、ご注文をいただいてから2〜3日以内に配送手配を行います。
+          </p>
+
+          {giftWrapping && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "16px",
+              }}
+            >
+              <span>ギフト包装</span>
+
+              <span>
+                ¥{giftWrappingFee.toLocaleString()}
+              </span>
+            </div>
+          )}
 
           <div
             style={{
@@ -320,7 +506,6 @@ export default function CartPage() {
           </div>
         </div>
 
-        {/* ボタン */}
         <div
           style={{
             marginTop: "48px",
@@ -340,12 +525,13 @@ export default function CartPage() {
                 {
                   method: "POST",
                   headers: {
-                    "Content-Type":
-                      "application/json",
+                    "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
                     items: cart,
                     shippingFee,
+                    giftWrapping,
+                    note,
                   }),
                 }
               );
@@ -353,8 +539,7 @@ export default function CartPage() {
               const data = await res.json();
 
               if (data.url) {
-                window.location.href =
-                  data.url;
+                window.location.href = data.url;
               }
             }}
             style={{

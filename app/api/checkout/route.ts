@@ -10,18 +10,29 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const items = body.items;
-    const shippingFee = Number(body.shippingFee);
+    const shippingFee = Number(
+      body.shippingFee
+    );
+    const giftWrapping =
+      body.giftWrapping === true;
+    const note =
+      typeof body.note === "string"
+        ? body.note
+        : "";
 
     if (!Array.isArray(items)) {
       return NextResponse.json(
         {
-          error: "商品情報が正しくありません",
+          error:
+            "商品情報が正しくありません",
         },
         {
           status: 400,
         }
       );
     }
+
+    /* ---------- 送料の確認 ---------- */
 
     const allowedShippingFees = [
       1980,
@@ -36,7 +47,8 @@ export async function POST(req: Request) {
     ) {
       return NextResponse.json(
         {
-          error: "送料が正しくありません",
+          error:
+            "送料が正しくありません",
         },
         {
           status: 400,
@@ -44,54 +56,103 @@ export async function POST(req: Request) {
       );
     }
 
-    const session =
-      await stripe.checkout.sessions.create({
-        mode: "payment",
+    /* ---------- ギフト包装料金 ---------- */
 
-        payment_method_types: ["card"],
+    const giftWrappingFee =
+      giftWrapping ? 550 : 0;
 
-        // 配送先住所を取得
-        shipping_address_collection: {
-          allowed_countries: ["JP"],
+    /* ---------- 商品 ---------- */
+
+    const lineItems = items.map(
+      (item: any) => ({
+        price_data: {
+          currency: "jpy",
+
+          product_data: {
+            name: item.name,
+          },
+
+          unit_amount: item.price,
         },
 
-        line_items: [
-          ...items.map((item: any) => ({
-            price_data: {
-              currency: "jpy",
+        quantity: item.quantity,
+      })
+    );
 
-              product_data: {
-                name: item.name,
-              },
+    /* ---------- 送料 ---------- */
 
-              unit_amount: item.price,
-            },
+    lineItems.push({
+      price_data: {
+        currency: "jpy",
 
-            quantity: item.quantity,
-          })),
+        product_data: {
+          name: "送料",
+        },
 
-          // 送料
-          {
-            price_data: {
-              currency: "jpy",
+        unit_amount: shippingFee,
+      },
 
-              product_data: {
-                name: "送料",
-              },
+      quantity: 1,
+    });
 
-              unit_amount: shippingFee,
-            },
+    /* ---------- ギフト包装 ---------- */
 
-            quantity: 1,
+    if (giftWrapping) {
+      lineItems.push({
+        price_data: {
+          currency: "jpy",
+
+          product_data: {
+            name: "ギフト包装",
           },
-        ],
 
-        success_url:
-          `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+          unit_amount:
+            giftWrappingFee,
+        },
 
-        cancel_url:
-          `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+        quantity: 1,
       });
+    }
+
+    /* ---------- Stripe Checkout ---------- */
+
+    const session =
+      await stripe.checkout.sessions.create(
+        {
+          mode: "payment",
+
+          payment_method_types: [
+            "card",
+          ],
+
+          /* 配送先住所を取得 */
+          shipping_address_collection:
+            {
+              allowed_countries: ["JP"],
+            },
+
+          line_items: lineItems,
+
+          /* 備考欄などを注文情報として保存 */
+          metadata: {
+            gift_wrapping:
+              giftWrapping
+                ? "希望あり"
+                : "希望なし",
+
+            note:
+              note.trim() !== ""
+                ? note
+                : "なし",
+          },
+
+          success_url:
+            `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+
+          cancel_url:
+            `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+        }
+      );
 
     return NextResponse.json({
       url: session.url,
