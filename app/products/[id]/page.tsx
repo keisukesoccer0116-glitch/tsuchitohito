@@ -12,33 +12,34 @@ export default function ProductPage() {
 
   const product = products.find((p) => p.id === id);
 
+  const [quantity, setQuantity] = useState(1);
+  const [mainImage, setMainImage] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (product) {
+      setMainImage(product.images[0]);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+
+    window.addEventListener("resize", checkMobile);
+
+    return () =>
+      window.removeEventListener("resize", checkMobile);
+  }, []);
+
   if (!product) {
     return <div style={{ padding: "40px" }}>商品が見つかりません</div>;
   }
 
   const max = product.maxQuantity ?? 10;
-
-  const [quantity, setQuantity] = useState(1);
-  const [mainImage, setMainImage] = useState(
-    product.images[0]
-  );
-  const [isMobile, setIsMobile] = useState(false);
-
-useEffect(() => {
-  const checkMobile = () => {
-    setIsMobile(window.innerWidth < 768);
-  };
-
-  checkMobile();
-
-  window.addEventListener("resize", checkMobile);
-
-  return () =>
-    window.removeEventListener(
-      "resize",
-      checkMobile
-    );
-}, []);
 
   const addToCart = () => {
     const stored = localStorage.getItem("cart");
@@ -81,7 +82,7 @@ useEffect(() => {
         {/* 左：画像 */}
         <div style={{ flex: 1 }}>
           <img
-            src={mainImage}
+            src={mainImage || product.images[0]}
             alt={product.name}
             style={{
               width: "100%",
@@ -91,11 +92,18 @@ useEffect(() => {
             }}
           />
 
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              flexWrap: "wrap",
+            }}
+          >
             {product.images.map((img) => (
               <img
                 key={img}
                 src={img}
+                alt={product.name}
                 onClick={() => setMainImage(img)}
                 style={{
                   width: "80px",
@@ -113,12 +121,21 @@ useEffect(() => {
         </div>
 
         {/* 右：情報 */}
-        <div style={{ width:  isMobile ? "100%" : "400px", }}>
-          <h1 style={{ fontSize: "22px", marginBottom: "12px" }}>
+        <div
+          style={{
+            width: isMobile ? "100%" : "400px",
+          }}
+        >
+          <h1
+            style={{
+              fontSize: "22px",
+              marginBottom: "12px",
+            }}
+          >
             {product.name}
           </h1>
 
-          {/* 産地表示 */}
+          {/* 産地 */}
           <div
             style={{
               fontSize: "13px",
@@ -129,6 +146,7 @@ useEffect(() => {
             産地：{product.origin}
           </div>
 
+          {/* 価格 */}
           <div
             style={{
               fontSize: "18px",
@@ -215,6 +233,7 @@ useEffect(() => {
             </div>
           )}
 
+          {/* カートボタン */}
           <button
             onClick={addToCart}
             style={{
@@ -229,7 +248,86 @@ useEffect(() => {
             カートに入れる
           </button>
 
-          <div style={{ marginTop: "20px" }}>
+          {/* 商品仕様 */}
+          <div
+            style={{
+              marginTop: "40px",
+              paddingTop: "30px",
+              borderTop: "1px solid #ddd",
+              fontSize: "14px",
+              lineHeight: 1.9,
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "16px",
+                fontWeight: 400,
+                marginBottom: "20px",
+              }}
+            >
+              商品仕様
+            </h2>
+
+            <div style={{ marginBottom: "16px" }}>
+              <div style={{ color: "#777", marginBottom: "4px" }}>
+                サイズ
+              </div>
+              <div>{product.size}</div>
+            </div>
+
+            <div>
+              <div style={{ color: "#777", marginBottom: "4px" }}>
+                対応可否
+              </div>
+
+              <div>
+                オーブン：{product.oven ? "○" : "×"}
+                <br />
+                電子レンジ：{product.microwave ? "○" : "×"}
+                <br />
+                食器洗い洗浄機：
+                {product.dishwasher ? "○" : "×"}
+              </div>
+            </div>
+          </div>
+
+          {/* 注意点 */}
+          <div
+            style={{
+              marginTop: "40px",
+              paddingTop: "30px",
+              borderTop: "1px solid #ddd",
+              fontSize: "13px",
+              color: "#666",
+              lineHeight: 2,
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "16px",
+                fontWeight: 400,
+                color: "#555",
+                marginBottom: "20px",
+              }}
+            >
+              注意点
+            </h2>
+
+            <p style={{ margin: 0 }}>
+              商品画像とお届けする商品は全く同じではございません。
+              <br />
+              大きさ、形、色、模様、風合いなどは、1点1点異なります。
+              <br />
+              貫入（表面に入る模様のようなヒビ）、ピンホール（小さな穴）、鉄粉（鉄分が焼かれることによって酸化し黒点となった状態）、釉薬のムラなどの個体差をうつわの個性、うつわの表情として、捉えていただけない方のご購入はご遠慮願います。
+              <br />
+              お客様のご都合によるキャンセル・返品・交換はお受けしておりません。
+              <br />
+              もし形やラインが全て整った量産品の器をお探しの場合は、当店での購入はお控えください。
+            </p>
+          </div>
+
+          {/* 戻る */}
+          <div style={{ marginTop: "30px" }}>
             <Link href="/">← 戻る</Link>
           </div>
         </div>

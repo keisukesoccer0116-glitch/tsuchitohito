@@ -18,11 +18,21 @@ const qtyBtn = {
   cursor: "pointer",
 };
 
+const shippingPrices = {
+  other: 1980,
+  hokkaidoKyushu: 2500,
+  okinawa: 3000,
+};
+
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [shippingArea, setShippingArea] = useState<
+    "other" | "hokkaidoKyushu" | "okinawa"
+  >("other");
 
   useEffect(() => {
     const stored = localStorage.getItem("cart");
+
     if (stored) {
       setCart(JSON.parse(stored));
     }
@@ -37,7 +47,10 @@ export default function CartPage() {
     const newCart = cart
       .map((item) =>
         item.id === id
-          ? { ...item, quantity: item.quantity + delta }
+          ? {
+              ...item,
+              quantity: item.quantity + delta,
+            }
           : item
       )
       .filter((item) => item.quantity > 0);
@@ -53,6 +66,10 @@ export default function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const shippingFee = shippingPrices[shippingArea];
+
+  const grandTotal = total + shippingFee;
 
   /* ---------- 空カート ---------- */
   if (cart.length === 0) {
@@ -75,9 +92,16 @@ export default function CartPage() {
             カートは空です
           </h1>
 
-          <p style={{ marginBottom: "32px", color: "#555" }}>
-            気になることがありましたら<br />
-            Instagramのメッセージより<br />
+          <p
+            style={{
+              marginBottom: "32px",
+              color: "#555",
+            }}
+          >
+            気になることがありましたら
+            <br />
+            Instagramのメッセージより
+            <br />
             ご連絡ください。
           </p>
 
@@ -102,7 +126,12 @@ export default function CartPage() {
     <main style={{ padding: "80px 20px" }}>
       <h1 style={{ marginBottom: "40px" }}>カート</h1>
 
-      <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+      <div
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+        }}
+      >
         {cart.map((item) => (
           <div
             key={item.id}
@@ -141,22 +170,36 @@ export default function CartPage() {
               >
                 <button
                   style={qtyBtn}
-                  onClick={() => changeQuantity(item.id, -1)}
+                  onClick={() =>
+                    changeQuantity(item.id, -1)
+                  }
                 >
                   −
                 </button>
+
                 <span>{item.quantity}</span>
+
                 <button
                   style={qtyBtn}
-                  onClick={() => changeQuantity(item.id, 1)}
+                  onClick={() =>
+                    changeQuantity(item.id, 1)
+                  }
                 >
                   ＋
                 </button>
               </div>
             </div>
 
-            <div style={{ width: "140px", textAlign: "right" }}>
-              ¥{(item.price * item.quantity).toLocaleString()}
+            <div
+              style={{
+                width: "140px",
+                textAlign: "right",
+              }}
+            >
+              ¥
+              {(
+                item.price * item.quantity
+              ).toLocaleString()}
             </div>
 
             <button
@@ -173,16 +216,111 @@ export default function CartPage() {
           </div>
         ))}
 
+        {/* 配送先 */}
         <div
           style={{
-            textAlign: "right",
             marginTop: "40px",
-            fontSize: "20px",
+            padding: "24px",
+            background: "#f6f5f3",
           }}
         >
-          合計：¥{total.toLocaleString()}
+          <div
+            style={{
+              fontSize: "15px",
+              marginBottom: "16px",
+            }}
+          >
+            配送先
+          </div>
+
+          <select
+            value={shippingArea}
+            onChange={(e) =>
+              setShippingArea(
+                e.target.value as
+                  | "other"
+                  | "hokkaidoKyushu"
+                  | "okinawa"
+              )
+            }
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              padding: "12px",
+              border: "1px solid #ccc",
+              background: "#fff",
+              fontSize: "14px",
+            }}
+          >
+            <option value="other">
+              北海道・九州・沖縄以外
+            </option>
+
+            <option value="hokkaidoKyushu">
+              北海道・九州
+            </option>
+
+            <option value="okinawa">
+              沖縄
+            </option>
+          </select>
         </div>
 
+        {/* 金額 */}
+        <div
+          style={{
+            marginTop: "40px",
+            marginLeft: "auto",
+            maxWidth: "360px",
+            fontSize: "15px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "12px",
+            }}
+          >
+            <span>商品合計</span>
+
+            <span>
+              ¥{total.toLocaleString()}
+            </span>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "16px",
+            }}
+          >
+            <span>送料</span>
+
+            <span>
+              ¥{shippingFee.toLocaleString()}
+            </span>
+          </div>
+
+          <div
+            style={{
+              borderTop: "1px solid #ddd",
+              paddingTop: "16px",
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: "20px",
+            }}
+          >
+            <span>合計</span>
+
+            <span>
+              ¥{grandTotal.toLocaleString()}
+            </span>
+          </div>
+        </div>
+
+        {/* ボタン */}
         <div
           style={{
             marginTop: "48px",
@@ -191,22 +329,32 @@ export default function CartPage() {
             alignItems: "center",
           }}
         >
-          <Link href="/">← 商品一覧へ戻る</Link>
+          <Link href="/">
+            ← 商品一覧へ戻る
+          </Link>
 
           <button
             onClick={async () => {
-              const res = await fetch("/api/checkout", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ items: cart }),
-              });
+              const res = await fetch(
+                "/api/checkout",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type":
+                      "application/json",
+                  },
+                  body: JSON.stringify({
+                    items: cart,
+                    shippingFee,
+                  }),
+                }
+              );
 
               const data = await res.json();
 
               if (data.url) {
-                window.location.href = data.url;
+                window.location.href =
+                  data.url;
               }
             }}
             style={{
