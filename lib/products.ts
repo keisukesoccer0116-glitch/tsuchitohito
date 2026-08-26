@@ -26,9 +26,9 @@ export const products: Product[] = [
     maxQuantity: 2,
 
     size: "約14cm × 11cm × 高さ6cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/soup-001.jpg",
@@ -48,9 +48,9 @@ export const products: Product[] = [
     maxQuantity: 4,
 
     size: "約13cm × 高さ6cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/meshiwan-flat-001.jpg",
@@ -70,9 +70,9 @@ export const products: Product[] = [
     maxQuantity: 2,
 
     size: "約20cm × 高さ8cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/ramen-001.jpg",
@@ -92,9 +92,9 @@ export const products: Product[] = [
     maxQuantity: 6,
 
     size: "約20.5cm × 12cm × 高さ1.5cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/square-small-001.jpg",
@@ -113,9 +113,9 @@ export const products: Product[] = [
     maxQuantity: 5,
 
     size: "約25cm × 18cm × 高さ2cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/square-medium-001.jpg",
@@ -135,9 +135,9 @@ export const products: Product[] = [
     maxQuantity: 4,
 
     size: "約18cm × 18cm × 高さ2cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/plate-medium-001.jpg",
@@ -157,9 +157,9 @@ export const products: Product[] = [
     maxQuantity: 3,
 
     size: "約28cm × 28cm × 高さ3cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/plate-large-001.jpg",
@@ -179,9 +179,9 @@ export const products: Product[] = [
     maxQuantity: 6,
 
     size: "約18cm × 18cm × 高さ6cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/bowl-small-001.jpg",
@@ -201,9 +201,9 @@ export const products: Product[] = [
     maxQuantity: 7,
 
     size: "約22cm × 16cm × 高さ5cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/gratin-black-001.jpg",
@@ -223,9 +223,9 @@ export const products: Product[] = [
     maxQuantity: 1,
 
     size: "約8cm × 8cm × 高さ12cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/flower-small-a-001.jpg",
@@ -243,9 +243,9 @@ export const products: Product[] = [
     maxQuantity: 1,
 
     size: "約8cm × 8cm × 高さ12cm",
-    oven: false,
-    microwave: false,
-    dishwasher: false,
+    oven: true,
+    microwave: true,
+    dishwasher: true,
 
     images: [
       "/products/flower-small-b-001.jpg",
