@@ -65,10 +65,10 @@ export const products: Product[] = [
     category: "皿・プレート",
     maxQuantity: 6,
     images: [
-      "/products/square-smal-001.jpg",
-      "/products/square-smal-001-1.jpg",
-      "/products/square-smal-001-2.jpg",
-      "/products/square-smal-001-3.jpg",
+      "/products/square-small-001.jpg",
+      "/products/square-small-001-1.jpg",
+      "/products/square-small-001-2.jpg",
+      "/products/square-small-001-3.jpg",
     ],
   },
 
