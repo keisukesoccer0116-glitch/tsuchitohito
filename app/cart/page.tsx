@@ -315,6 +315,27 @@ export default function CartPage() {
 
           <div
             style={{
+              marginTop: "12px",
+              fontSize: "12px",
+              color: "#777",
+              lineHeight: 1.8,
+            }}
+          >
+            <div>
+              ※配送はヤマト運輸にてお届けいたします。
+            </div>
+
+            <div>
+              ※ご希望の配送日・時間帯がございましたら、備考欄にご記入ください。
+            </div>
+
+            <div>
+              ※発送後、伝票番号および配送予定日時を、ご登録いただいたメールアドレスへお知らせいたします。
+            </div>
+          </div>
+
+          <div
+            style={{
               marginTop: "28px",
             }}
           >
