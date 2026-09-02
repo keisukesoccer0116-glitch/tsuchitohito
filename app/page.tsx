@@ -46,19 +46,24 @@ export default function Home() {
             paddingTop: "40px",
             color: "#555",
             lineHeight: 2,
-            fontSize: "15px",
+            fontSize: "14px",
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "40px",
+              gap: "20px",
             }}
           >
             {/* 経歴 */}
-            <div style={{ flex: 1 }}>
-              <p>
+            <div
+              style={{
+                flex: 1,
+                minWidth: 0,
+              }}
+            >
+              <p style={{ margin: 0 }}>
                 山口慶祐　Keisuke Yamaguchi
                 <br />
                 1998年 栃木県出身
@@ -79,8 +84,8 @@ export default function Home() {
                 src="/images/profile.jpg"
                 alt="つちとひと 山口慶祐"
                 style={{
-                  width: "180px",
-                  height: "180px",
+                  width: "150px",
+                  height: "150px",
                   objectFit: "cover",
                 }}
               />
