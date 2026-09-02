@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type CartItem = {
   id: string;
@@ -21,6 +22,9 @@ const categories = [
 export default function Header() {
   const [count, setCount] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isStorePage = pathname === "/store";
 
   useEffect(() => {
     const updateCount = () => {
@@ -90,22 +94,26 @@ export default function Header() {
               gap: "16px",
             }}
           >
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="カテゴリーを開く"
-              style={{
-                background: "none",
-                border: "none",
-                fontSize: "28px",
-                cursor: "pointer",
-                padding: 0,
-              }}
-            >
-              ☰
-            </button>
+            {/* ショップページのみハンバーガー表示 */}
+            {isStorePage && (
+              <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                aria-label="カテゴリーを開く"
+                style={{
+                  background: "none",
+                  border: "none",
+                  fontSize: "28px",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                ☰
+              </button>
+            )}
 
+            {/* つちとひと → プロフィール */}
             <Link
-              href="/about"
+              href="/"
               style={{
                 textDecoration: "none",
                 color: "inherit",
@@ -132,8 +140,18 @@ export default function Header() {
               fontSize: "14px",
             }}
           >
-            <Link href="/">ホーム</Link>
+            {/* ショップ */}
+            <Link
+              href="/store"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              ショップ
+            </Link>
 
+            {/* カート */}
             <Link
               href="/cart"
               style={{
@@ -148,7 +166,7 @@ export default function Header() {
       </header>
 
       {/* カテゴリーメニュー */}
-      {menuOpen && (
+      {isStorePage && menuOpen && (
         <div
           style={{
             position: "fixed",
