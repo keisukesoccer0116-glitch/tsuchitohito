@@ -45,6 +45,54 @@ export const products: Product[] = [
   },
 
   {
+    id: "rockcup-001",
+    name: "ロックカップ・湯呑（黒）",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
+    maxQuantity: 2,
+
+    size: "直径12.5cm × 高さ6cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/rockcup-001.jpg",
+      "/products/rockcup-001-1.jpg",
+      "/products/rockcup-001-2.jpg",
+      "/products/rockcup-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "rockcupwhite-001",
+    name: "ロックカップ・湯呑（白）",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
+    maxQuantity: 2,
+
+    size: "直径12.5cm × 高さ6cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/rockcupwhite-001.jpg",
+      "/products/rockcupwhite-001-1.jpg",
+      "/products/rockcupwhite-001-2.jpg",
+      "/products/rockcupwhite-001-4.jpg",
+    ],
+  },
+
+  {
     id: "meshiwan-flat-001",
     name: "飯碗",
     price: 2200,
@@ -76,7 +124,7 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
-      "おわん型や小さめのサイズが好みの方へ",
+      "おわん型の飯碗、小さめのサイズが好みの方へ",
     maxQuantity: 10,
 
     size: "直径11.5cm × 高さ5.5cm",
@@ -91,6 +139,31 @@ export const products: Product[] = [
       "/products/meshiwan-bowl-001-2.jpg",
       "/products/meshiwan-bowl-001-3.jpg",
       "/products/meshiwan-bowl-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "nandemo-a-001",
+    name: "中皿",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "飯碗・丼",
+    description:
+      "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
+    maxQuantity: 4,
+
+    size: "直径15.5cm × 高さ6.5cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/nandemo-a-001.jpg",
+      "/products/nandemo-a-001-1.jpg",
+      "/products/nandemo-a-001-2.jpg",
+      "/products/nandemo-a-001-3.jpg",
+      "/products/nandemo-a-001-4.jpg",
     ],
   },
 
@@ -213,7 +286,6 @@ export const products: Product[] = [
       "/products/pasta-001.jpg",
       "/products/pasta-001-1.jpg",
       "/products/pasta-001-2.jpg",
-      "/products/pasta-001-3.jpg",
       "/products/pasta-001-4.jpg",
     ],
   },
@@ -294,13 +366,82 @@ export const products: Product[] = [
   },
 
   {
+    id: "choko-a-001",
+    name: "おちょこ（黒色）",
+    price: 1500,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒もこれで美味しく味わえます",
+    maxQuantity: 1,
+
+    size: "最大直径9cm × 高さ13cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/choko-a-001.jpg",
+      "/products/choko-a-001-1.jpg",
+      "/products/choko-a-001-2.jpg",
+    ],
+  },
+
+{
+  id: "choko-b-001",
+    name: "おちょこ（翡翠色）",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒もこれで美味しく味わえます",
+    maxQuantity: 1,
+
+    size: "最大直径9cm × 高さ13cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/choko-b-001.jpg",
+      "/products/choko-b-001-1.jpg",
+      "/products/choko-b-001-2.jpg",
+    ],
+  },
+
+  {
+  id: "katakuchi-a-001",
+    name: "片口",
+    price: 2800,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
+    maxQuantity: 1,
+
+    size: "最大直径9cm × 高さ13cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/katakuchi-a-001.jpg",
+      "/products/katakuchi-a-001-1.jpg",
+      "/products/katakuchi-a-001-2.jpg",
+    ],
+  },
+
+  {
     id: "flower-small-a-001",
     name: "一輪挿し（飴色）",
     price: 2400,
     origin: "益子焼（山口慶祐）",
     category: "花器",
     description:
-      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました",
+      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
     maxQuantity: 1,
 
     size: "最大直径9cm × 高さ13cm",
@@ -323,7 +464,7 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "花器",
     description:
-      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました",
+      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
     maxQuantity: 1,
 
     size: "最大直径9cm × 高さ13cm",
@@ -336,6 +477,28 @@ export const products: Product[] = [
       "/products/flower-small-b-001.jpg",
       "/products/flower-small-b-001-1.jpg",
       "/products/flower-small-b-001-2.jpg",
+    ],
+  },
+  {
+    id: "flower-small-c-001",
+    name: "一輪挿し",
+    price: 2400,
+    origin: "益子焼（山口慶祐）",
+    category: "花器",
+    description:
+      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても良いです。",
+    maxQuantity: 1,
+
+    size: "最大直径7cm × 高さ13cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/flower-small-c-001.jpg",
+      "/products/flower-small-c-001-1.jpg",
+      "/products/flower-small-c-001-2.jpg",
     ],
   },
 ];
