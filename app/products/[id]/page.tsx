@@ -145,6 +145,18 @@ export default function ProductPage() {
             ¥{product.price.toLocaleString()}
           </div>
 
+          {/* 商品紹介 */}
+          <div
+            style={{
+              fontSize: "14px",
+              lineHeight: 2,
+              color: "#555",
+              marginBottom: "30px",
+            }}
+          >
+            {product.description}
+          </div>
+
           {/* 数量選択 */}
           <div
             style={{
@@ -276,6 +288,8 @@ export default function ProductPage() {
                 <br />
                 食器洗い洗浄機：
                 {product.dishwasher ? "○" : "×"}
+                <br />
+                直火：{product.directFire ? "○" : "×"}
               </div>
             </div>
           </div>
@@ -317,7 +331,7 @@ export default function ProductPage() {
 
           {/* 戻る */}
           <div style={{ marginTop: "30px" }}>
-            <Link href="/">← 戻る</Link>
+            <Link href="/store">← ショップへ戻る</Link>
           </div>
         </div>
       </div>

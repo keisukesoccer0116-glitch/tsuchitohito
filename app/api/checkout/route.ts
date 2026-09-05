@@ -123,6 +123,7 @@ export async function POST(req: Request) {
 
           payment_method_types: [
             "card",
+            "paypay",
           ],
 
           /* 配送先住所を取得 */
