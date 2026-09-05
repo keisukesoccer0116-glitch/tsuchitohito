@@ -121,9 +121,7 @@ export async function POST(req: Request) {
         {
           mode: "payment",
 
-          payment_method_types: [
-            "card",
-          ],
+          /* Stripe側で有効な決済方法を自動選択 */
 
           /* 配送先住所を取得 */
           shipping_address_collection:
