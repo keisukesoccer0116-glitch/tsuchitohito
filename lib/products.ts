@@ -52,9 +52,9 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
-    maxQuantity: 2,
+    maxQuantity: 5,
 
-    size: "直径12.5cm × 高さ6cm",
+    size: "直径9cm × 高さ6.5cm",
     oven: false,
     microwave: true,
     dishwasher: true,
@@ -76,9 +76,9 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
-    maxQuantity: 2,
+    maxQuantity: 5,
 
-    size: "直径12.5cm × 高さ6cm",
+    size: "直径9cm × 高さ6.5cm",
     oven: false,
     microwave: true,
     dishwasher: true,
@@ -94,13 +94,13 @@ export const products: Product[] = [
 
   {
     id: "meshiwan-flat-001",
-    name: "飯碗",
+    name: "飯碗（平形）",
     price: 2200,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
       "白いごはんが引き立つ黒釉。開いた形は、卵かけごはんが食べやすい。また他にも何かを盛れるように少し大きめの飯碗です。",
-    maxQuantity: 4,
+    maxQuantity: 7,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: true,
@@ -119,7 +119,7 @@ export const products: Product[] = [
 
   {
     id: "meshiwan-bowl-001",
-    name: "飯碗",
+    name: "飯碗（椀形）",
     price: 2200,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
@@ -152,7 +152,7 @@ export const products: Product[] = [
       "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
     maxQuantity: 4,
 
-    size: "直径15.5cm × 高さ6.5cm",
+    size: "直径18cm × 高さ6.5cm",
     oven: true,
     microwave: true,
     dishwasher: true,
@@ -310,7 +310,6 @@ export const products: Product[] = [
       "/products/plate-large-001.jpg",
       "/products/plate-large-001-1.jpg",
       "/products/plate-large-001-2.jpg",
-      "/products/plate-large-001-3.jpg",
       "/products/plate-large-001-4.jpg",
     ],
   },
@@ -372,10 +371,10 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "その他",
     description:
-      "日本酒もこれで美味しく味わえます",
-    maxQuantity: 1,
+      "日本酒もさらに美味しく味わえます",
+    maxQuantity: 2,
 
-    size: "最大直径9cm × 高さ13cm",
+    size: "直径10cm × 高さ4cm",
     oven: false,
     microwave: true,
     dishwasher: true,
@@ -395,10 +394,10 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "その他",
     description:
-      "日本酒もこれで美味しく味わえます",
-    maxQuantity: 1,
+      "日本酒もさらに美味しく味わえます",
+    maxQuantity: 3,
 
-    size: "最大直径9cm × 高さ13cm",
+    size: "直径10cm × 高さ4cm",
     oven: false,
     microwave: true,
     dishwasher: true,
@@ -421,7 +420,7 @@ export const products: Product[] = [
       "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
     maxQuantity: 1,
 
-    size: "最大直径9cm × 高さ13cm",
+    size: "15cm × 11cm  × 高さ7.5cm",
     oven: false,
     microwave: true,
     dishwasher: true,
@@ -487,9 +486,9 @@ export const products: Product[] = [
     category: "花器",
     description:
       "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても良いです。",
-    maxQuantity: 1,
+    maxQuantity: 3,
 
-    size: "最大直径7cm × 高さ13cm",
+    size: "最大直径7cm × 高さ14cm",
     oven: false,
     microwave: true,
     dishwasher: true,
