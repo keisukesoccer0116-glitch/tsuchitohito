@@ -120,7 +120,7 @@ export const products: Product[] = [
   {
     id: "meshiwan-bowl-001",
     name: "飯碗（椀形）",
-    price: 2200,
+    price: 2000,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
@@ -145,7 +145,7 @@ export const products: Product[] = [
   {
     id: "nandemo-a-001",
     name: "中皿",
-    price: 3300,
+    price: 2800,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
