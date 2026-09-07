@@ -387,6 +387,31 @@ export const products: Product[] = [
     ],
   },
 
+  {
+    id: "teapot-a-001",
+    name: "ティーポット",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "茶漉し穴になっておりますので、茶漉し網不要でこのまま淹れることができます。",
+    maxQuantity: 2,
+
+    size: "胴体最大直径12cm × 高さ10.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/teapot-a-001.jpg",
+      "/products/teapot-a-001-1.jpg",
+      "/products/teapot-a-001-2.jpg",
+      "/products/teapot-a-001-3.jpg",
+      "/products/teapot-a-001-4.jpg",
+    ],
+  },
+
 {
   id: "choko-b-001",
     name: "おちょこ（翡翠色）",
@@ -412,7 +437,7 @@ export const products: Product[] = [
 
   {
   id: "katakuchi-a-001",
-    name: "片口",
+    name: "片口（黒）",
     price: 2800,
     origin: "益子焼（山口慶祐）",
     category: "その他",
@@ -430,6 +455,29 @@ export const products: Product[] = [
       "/products/katakuchi-a-001.jpg",
       "/products/katakuchi-a-001-1.jpg",
       "/products/katakuchi-a-001-2.jpg",
+    ],
+  },
+
+  {
+  id: "katakuchi-b-001",
+    name: "片口（白）",
+    price: 2800,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
+    maxQuantity: 1,
+
+    size: "15cm × 11cm  × 高さ7.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/katakuchi-b-001.jpg",
+      "/products/katakuchi-b-001-1.jpg",
+      "/products/katakuchi-b-001-2.jpg",
     ],
   },
 
@@ -498,6 +546,29 @@ export const products: Product[] = [
       "/products/flower-small-c-001.jpg",
       "/products/flower-small-c-001-1.jpg",
       "/products/flower-small-c-001-2.jpg",
+    ],
+  },
+   {
+    id: "katori-a-001",
+    name: "蚊取り線香（棒付き）",
+    price: 2400,
+    origin: "益子焼（山口慶祐）",
+    category: "花器",
+    description:
+      "蚊取り線香置きに",
+    maxQuantity: 4,
+
+    size: "17.5cm × 10cm × 高さ11cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/katori-a-001.jpg",
+      "/products/katori-a-001-1.jpg",
+      "/products/katori-a-001-2.jpg",
+      "/products/katori-a-001-3.jpg",
     ],
   },
 ];
