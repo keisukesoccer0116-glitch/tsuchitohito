@@ -20,31 +20,6 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: "soup-001",
-    name: "スープカップ",
-    price: 2200,
-    origin: "益子焼（山口慶祐）",
-    category: "湯呑・カップ",
-    description:
-      "ご家庭でたっぷり入れられるように少し大きめに作っております。飴色にはコーンスープが合いそうです。もちろんどんなスープも受け止められます",
-    maxQuantity: 2,
-
-    size: "直径12.5cm × 高さ6cm",
-    oven: false,
-    microwave: true,
-    dishwasher: true,
-    directFire: false,
-
-    images: [
-      "/products/soup-001.jpg",
-      "/products/soup-001-1.jpg",
-      "/products/soup-001-2.jpg",
-      "/products/soup-001-3.jpg",
-      "/products/soup-001-4.jpg",
-    ],
-  },
-
-  {
     id: "rockcup-001",
     name: "ロックカップ・湯呑（黒）",
     price: 2200,
@@ -100,7 +75,7 @@ export const products: Product[] = [
     category: "飯碗・丼",
     description:
       "白いごはんが引き立つ黒釉。開いた形は、卵かけごはんが食べやすい。また他にも何かを盛れるように少し大きめの飯碗です。",
-    maxQuantity: 7,
+    maxQuantity: 6,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: true,
@@ -409,52 +384,6 @@ export const products: Product[] = [
       "/products/teapot-a-001-2.jpg",
       "/products/teapot-a-001-3.jpg",
       "/products/teapot-a-001-4.jpg",
-    ],
-  },
-
-{
-  id: "choko-b-001",
-    name: "おちょこ（翡翠色）",
-    price: 2200,
-    origin: "益子焼（山口慶祐）",
-    category: "その他",
-    description:
-      "日本酒もさらに美味しく味わえます",
-    maxQuantity: 3,
-
-    size: "直径10cm × 高さ4cm",
-    oven: false,
-    microwave: true,
-    dishwasher: true,
-    directFire: false,
-
-    images: [
-      "/products/choko-b-001.jpg",
-      "/products/choko-b-001-1.jpg",
-      "/products/choko-b-001-2.jpg",
-    ],
-  },
-
-  {
-  id: "katakuchi-a-001",
-    name: "片口（黒）",
-    price: 2800,
-    origin: "益子焼（山口慶祐）",
-    category: "その他",
-    description:
-      "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
-    maxQuantity: 1,
-
-    size: "15cm × 11cm  × 高さ7.5cm",
-    oven: false,
-    microwave: true,
-    dishwasher: true,
-    directFire: false,
-
-    images: [
-      "/products/katakuchi-a-001.jpg",
-      "/products/katakuchi-a-001-1.jpg",
-      "/products/katakuchi-a-001-2.jpg",
     ],
   },
 
