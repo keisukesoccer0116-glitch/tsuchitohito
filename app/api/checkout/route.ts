@@ -129,6 +129,11 @@ export async function POST(req: Request) {
               allowed_countries: ["JP"],
             },
 
+          /* 電話番号を必須で取得 */
+          phone_number_collection: {
+            enabled: true,
+          },
+
           line_items: lineItems,
 
           /* 備考欄などを注文情報として保存 */
