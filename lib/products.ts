@@ -297,7 +297,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "ほどよい深さがあり、サラダや煮物、アサイーなど幅広い料理に使えるボウル。",
-    maxQuantity: 6,
+    maxQuantity: 4,
 
     size: "直径14.5cm × 高さ6.5cm",
     oven: false,
@@ -418,7 +418,7 @@ export const products: Product[] = [
     category: "花器",
     description:
       "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "最大直径9cm × 高さ13cm",
     oven: false,
