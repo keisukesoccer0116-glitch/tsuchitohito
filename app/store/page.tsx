@@ -70,40 +70,70 @@ export default function Home() {
             gap: "24px",
           }}
         >
-          {filteredProducts.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.id}`}
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              <div>
-                <img
-                  src={product.images[0]}
-                  alt={product.name}
-                  style={{
-                    width: "100%",
-                    aspectRatio: "1 / 1",
-                    objectFit: "cover",
-                    background: "#eee",
-                    marginBottom: "10px",
-                  }}
-                />
+          {filteredProducts.map((product) => {
+            const soldOut =
+              (product.maxQuantity ?? 0) <= 0;
 
+            return (
+              <Link
+                key={product.id}
+                href={`/products/${product.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                }}
+              >
                 <div>
-                  <div className="content-text">
-                    {product.name}
+                  <div
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <img
+                      src={product.images[0]}
+                      alt={product.name}
+                      style={{
+                        width: "100%",
+                        aspectRatio: "1 / 1",
+                        objectFit: "cover",
+                        background: "#eee",
+                        marginBottom: "10px",
+                        display: "block",
+                      }}
+                    />
+
+                    {soldOut && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          background:
+                            "rgba(255, 255, 255, 0.45)",
+                          fontSize: "16px",
+                          letterSpacing: "0.12em",
+                        }}
+                      >
+                        SOLD OUT
+                      </div>
+                    )}
                   </div>
 
-                  <div className="meta-text">
-                    ¥{product.price.toLocaleString()}
+                  <div>
+                    <div className="content-text">
+                      {product.name}
+                    </div>
+
+                    <div className="meta-text">
+                      ¥{product.price.toLocaleString()}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </main>
