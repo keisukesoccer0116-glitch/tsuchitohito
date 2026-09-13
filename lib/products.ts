@@ -20,6 +20,54 @@ export type Product = {
 
 export const products: Product[] = [
   {
+    id: "soup-white-001",
+    name: "スープカップ",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "白は全ての色を受け止めます。",
+    maxQuantity: 3,
+
+    size: "直径10cm × 高さ4cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/soup-white-001.jpg",
+      "/products/soup-white-001-1.jpg",
+      "/products/soup-white-001-2.jpg",
+      "/products/soup-white-001-3.jpg",
+      "/products/soup-white-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "soup-001",
+    name: "スープカップ",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "飴色のスープカップです。",
+    maxQuantity: 0,
+
+    size: "直径12cm × 高さ4.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/soup-001.jpg",
+      "/products/soup-001-1.jpg",
+      "/products/soup-001-2.jpg",
+      "/products/soup-001-4.jpg",
+    ],
+  },
+  {
     id: "rockcup-001",
     name: "ロックカップ・湯呑（黒）",
     price: 2200,
@@ -241,6 +289,56 @@ export const products: Product[] = [
     ],
   },
 
+   {
+    id: "cake-small-001",
+    name: "平らな器（小）",
+    price: 2800,
+    origin: "益子焼（山口慶祐）",
+    category: "皿・プレート",
+    description:
+      "まったいらな器です。ケーキを盛るイメージで作りました。高級ステーキなどもいいかもしれません。",
+    maxQuantity: 0,
+
+    size: "直径20.5cm × 高さ2.5cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/cake-small-001.jpg",
+      "/products/cake-small-001-1.jpg",
+      "/products/cake-small-001-2.jpg",
+      "/products/cake-small-001-3.jpg",
+      "/products/cake-small-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "cake-large-001",
+    name: "平らな器（大）",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "皿・プレート",
+    description:
+      "まったいらな器です。ホールケーキを盛るイメージで作りました。パンや焼き菓子などを飾るときにいいかもしれません。",
+    maxQuantity: 1,
+
+    size: "直径27cm × 高さ1.5cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/cake-large-001.jpg",
+      "/products/cake-large-001-1.jpg",
+      "/products/cake-large-001-2.jpg",
+      "/products/cake-large-001-3.jpg",
+      "/products/cake-large-001-4.jpg",
+    ],
+  },
+
 {
     id: "pasta-001",
     name: "パスタ皿・カレー皿",
@@ -268,7 +366,7 @@ export const products: Product[] = [
   {
     id: "plate-large-001",
     name: "大皿（リム皿）",
-    price: 3800,
+    price: 4400,
     origin: "益子焼（山口慶祐）",
     category: "皿・プレート",
     description:
@@ -292,7 +390,7 @@ export const products: Product[] = [
   {
     id: "bowl-small-001",
     name: "ボウル",
-    price: 2200,
+    price: 2400,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
     description:
@@ -314,10 +412,86 @@ export const products: Product[] = [
     ],
   },
 
+ {
+    id: "owan-green-001",
+    name: "中鉢（貫入緑色）",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "鉢・ボウル",
+    description:
+      "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
+    maxQuantity: 2,
+
+    size: "直径15.5cm × 高さ6.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/owan-green-001.jpg",
+      "/products/owan-green-001-1.jpg",
+      "/products/owan-green-001-2.jpg",
+      "/products/owan-green-001-3.jpg",
+      "/products/owan-green-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "owan-sakura-001",
+    name: "中鉢（貫入桜色）",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "鉢・ボウル",
+    description:
+      "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
+    maxQuantity: 2,
+
+    size: "直径15.5cm × 高さ6.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/owan-sakura-001.jpg",
+      "/products/owan-sakura-001-1.jpg",
+      "/products/owan-sakura-001-2.jpg",
+      "/products/owan-sakura-001-3.jpg",
+      "/products/owan-sakura-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "owan-white-001",
+    name: "中鉢（貫入白色）",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "鉢・ボウル",
+    description:
+      "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
+    maxQuantity: 2,
+
+    size: "直径15.5cm × 高さ6.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/owan-white-001.jpg",
+      "/products/owan-white-001-1.jpg",
+      "/products/owan-white-001-2.jpg",
+      "/products/owan-white-001-3.jpg",
+      "/products/owan-white-001-4.jpg",
+    ],
+  },
+
+
   {
     id: "gratin-black-001",
-    name: "グラタン皿",
-    price: 2800,
+    name: "グラタン皿（黒）",
+    price: 3300,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
     description:
@@ -336,6 +510,31 @@ export const products: Product[] = [
       "/products/gratin-black-001-2.jpg",
       "/products/gratin-black-001-3.jpg",
       "/products/gratin-black-001-4.jpg",
+    ],
+  },
+
+  {
+    id: "gratin-white-001",
+    name: "グラタン皿（白）",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "鉢・ボウル",
+    description:
+      "オーブン料理をそのまま食卓へ運べるグラタン皿。グラタンやドリアはもちろん、焼き野菜やオーブン料理にも。熱々の料理と器の表情を一緒に楽しめます。",
+    maxQuantity: 2,
+
+    size: "直径14cm × 高さ6cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/gratin-white-001.jpg",
+      "/products/gratin-white-001-1.jpg",
+      "/products/gratin-white-001-2.jpg",
+      "/products/gratin-white-001-3.jpg",
+      "/products/gratin-white-001-4.jpg",
     ],
   },
 
@@ -359,6 +558,29 @@ export const products: Product[] = [
       "/products/choko-a-001.jpg",
       "/products/choko-a-001-1.jpg",
       "/products/choko-a-001-2.jpg",
+    ],
+  },
+
+ {
+    id: "choko-b-001",
+    name: "おちょこ（翡翠色）",
+    price: 2200,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒もさらに美味しく味わえます",
+    maxQuantity: 2,
+
+    size: "直径10cm × 高さ4cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/choko-b-001.jpg",
+      "/products/choko-b-001-1.jpg",
+      "/products/choko-b-001-2.jpg",
     ],
   },
 
@@ -407,6 +629,29 @@ export const products: Product[] = [
       "/products/katakuchi-b-001.jpg",
       "/products/katakuchi-b-001-1.jpg",
       "/products/katakuchi-b-001-2.jpg",
+    ],
+  },
+
+  {
+  id: "katakuchi-a-001",
+    name: "片口（黒）",
+    price: 2800,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
+    maxQuantity: 0,
+
+    size: "15cm × 11cm  × 高さ7.5cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/katakuchi-a-001.jpg",
+      "/products/katakuchi-a-001-1.jpg",
+      "/products/katakuchi-a-001-2.jpg",
     ],
   },
 
