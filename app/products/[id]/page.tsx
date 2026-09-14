@@ -40,8 +40,13 @@ export default function ProductPage() {
   }
 
   const max = product.maxQuantity ?? 10;
+  const soldOut = max <= 0;
 
   const addToCart = () => {
+    if (soldOut) {
+      return;
+    }
+
     const stored = localStorage.getItem("cart");
     const cart = stored ? JSON.parse(stored) : [];
 
@@ -65,6 +70,9 @@ export default function ProductPage() {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    window.dispatchEvent(new Event("cartUpdated"));
+
     router.push("/cart");
   };
 
@@ -145,6 +153,19 @@ export default function ProductPage() {
             ¥{product.price.toLocaleString()}
           </div>
 
+          {/* SOLD OUT */}
+          {soldOut && (
+            <div
+              style={{
+                fontSize: "14px",
+                letterSpacing: "0.12em",
+                marginBottom: "24px",
+              }}
+            >
+              SOLD OUT
+            </div>
+          )}
+
           {/* 商品紹介 */}
           <div
             style={{
@@ -158,95 +179,111 @@ export default function ProductPage() {
           </div>
 
           {/* 数量選択 */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              marginBottom: "16px",
-              fontSize: "14px",
-            }}
-          >
-            <span>数量</span>
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                border: "1px solid #ccc",
-              }}
-            >
-              <button
-                onClick={() =>
-                  setQuantity(Math.max(1, quantity - 1))
-                }
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  border: "none",
-                  background: "none",
-                  cursor: "pointer",
-                }}
-              >
-                −
-              </button>
-
+          {!soldOut && (
+            <>
               <div
                 style={{
-                  width: "32px",
-                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  marginBottom: "16px",
+                  fontSize: "14px",
                 }}
               >
-                {quantity}
+                <span>数量</span>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  <button
+                    onClick={() =>
+                      setQuantity(
+                        Math.max(1, quantity - 1)
+                      )
+                    }
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      border: "none",
+                      background: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    −
+                  </button>
+
+                  <div
+                    style={{
+                      width: "32px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {quantity}
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setQuantity(
+                        Math.min(max, quantity + 1)
+                      )
+                    }
+                    disabled={quantity >= max}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      border: "none",
+                      background: "none",
+                      cursor:
+                        quantity >= max
+                          ? "not-allowed"
+                          : "pointer",
+                      opacity:
+                        quantity >= max ? 0.4 : 1,
+                    }}
+                  >
+                    ＋
+                  </button>
+                </div>
               </div>
 
-              <button
-                onClick={() =>
-                  setQuantity(Math.min(max, quantity + 1))
-                }
-                disabled={quantity >= max}
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  border: "none",
-                  background: "none",
-                  cursor:
-                    quantity >= max
-                      ? "not-allowed"
-                      : "pointer",
-                  opacity: quantity >= max ? 0.4 : 1,
-                }}
-              >
-                ＋
-              </button>
-            </div>
-          </div>
-
-          {quantity >= max && (
-            <div
-              style={{
-                fontSize: "12px",
-                color: "#777",
-                marginBottom: "16px",
-              }}
-            >
-              この商品は最大{max}点までです
-            </div>
+              {quantity >= max && (
+                <div
+                  style={{
+                    fontSize: "12px",
+                    color: "#777",
+                    marginBottom: "16px",
+                  }}
+                >
+                  この商品は最大{max}点までです
+                </div>
+              )}
+            </>
           )}
 
           {/* カートボタン */}
           <button
             onClick={addToCart}
+            disabled={soldOut}
             style={{
               padding: "14px 28px",
-              background: "#222",
+              background: soldOut
+                ? "#ddd"
+                : "#222",
               color: "#fff",
               border: "none",
-              cursor: "pointer",
+              cursor: soldOut
+                ? "not-allowed"
+                : "pointer",
               width: "100%",
             }}
           >
-            カートに入れる
+            {soldOut
+              ? "SOLD OUT"
+              : "カートに入れる"}
           </button>
 
           {/* 商品仕様 */}
@@ -270,26 +307,39 @@ export default function ProductPage() {
             </h2>
 
             <div style={{ marginBottom: "16px" }}>
-              <div style={{ color: "#777", marginBottom: "4px" }}>
+              <div
+                style={{
+                  color: "#777",
+                  marginBottom: "4px",
+                }}
+              >
                 サイズ
               </div>
               <div>{product.size}</div>
             </div>
 
             <div>
-              <div style={{ color: "#777", marginBottom: "4px" }}>
+              <div
+                style={{
+                  color: "#777",
+                  marginBottom: "4px",
+                }}
+              >
                 対応可否
               </div>
 
               <div>
-                オーブン：{product.oven ? "○" : "×"}
+                オーブン：
+                {product.oven ? "○" : "×"}
                 <br />
-                電子レンジ：{product.microwave ? "○" : "×"}
+                電子レンジ：
+                {product.microwave ? "○" : "×"}
                 <br />
                 食器洗い洗浄機：
                 {product.dishwasher ? "○" : "×"}
                 <br />
-                直火：{product.directFire ? "○" : "×"}
+                直火：
+                {product.directFire ? "○" : "×"}
               </div>
             </div>
           </div>
@@ -331,7 +381,9 @@ export default function ProductPage() {
 
           {/* 戻る */}
           <div style={{ marginTop: "30px" }}>
-            <Link href="/store">← ショップへ戻る</Link>
+            <Link href="/store">
+              ← ショップへ戻る
+            </Link>
           </div>
         </div>
       </div>
