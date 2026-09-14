@@ -35,25 +35,51 @@ export default function Header() {
         return;
       }
 
-      const cart: CartItem[] = JSON.parse(stored);
+      try {
+        const cart: CartItem[] = JSON.parse(stored);
 
-      const total = cart.reduce(
-        (sum, item) => sum + item.quantity,
-        0
-      );
+        const total = cart.reduce(
+          (sum, item) => sum + item.quantity,
+          0
+        );
 
-      setCount(total);
+        setCount(total);
+      } catch {
+        setCount(0);
+      }
     };
 
+    // 初回読み込み
     updateCount();
 
-    window.addEventListener("storage", updateCount);
+    // 別タブ・別ウィンドウでカートが変更された場合
+    window.addEventListener(
+      "storage",
+      updateCount
+    );
 
-    return () =>
-      window.removeEventListener("storage", updateCount);
-  }, []);
+    // 同じサイト内でカートが変更された場合
+    window.addEventListener(
+      "cartUpdated",
+      updateCount
+    );
 
-  const handleCategoryClick = (category: string) => {
+    return () => {
+      window.removeEventListener(
+        "storage",
+        updateCount
+      );
+
+      window.removeEventListener(
+        "cartUpdated",
+        updateCount
+      );
+    };
+  }, [pathname]);
+
+  const handleCategoryClick = (
+    category: string
+  ) => {
     window.dispatchEvent(
       new CustomEvent("categoryChange", {
         detail: category,
@@ -97,7 +123,9 @@ export default function Header() {
             {/* ショップページのみハンバーガー表示 */}
             {isStorePage && (
               <button
-                onClick={() => setMenuOpen(!menuOpen)}
+                onClick={() =>
+                  setMenuOpen(!menuOpen)
+                }
                 aria-label="カテゴリーを開く"
                 style={{
                   background: "none",
@@ -184,7 +212,9 @@ export default function Header() {
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => handleCategoryClick(category)}
+              onClick={() =>
+                handleCategoryClick(category)
+              }
               style={{
                 display: "block",
                 width: "100%",
@@ -201,7 +231,7 @@ export default function Header() {
             >
               {category}
             </button>
-          ))}
+         ))}
         </div>
       )}
     </>
