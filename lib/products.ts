@@ -19,6 +19,30 @@ export type Product = {
 };
 
 export const products: Product[] = [
+ {
+    id: "coffee-a-001",
+    name: "コーヒーカップ（窯変白）",
+    price: 2400,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "コーヒーはもちろん、紅茶などにも。白は全ての色を受け止めます。",
+    maxQuantity: 4,
+
+    size: "直径8cm × 高さ6cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/coffee-a-001.jpg",
+      "/products/coffee-a-001-1.jpg",
+      "/products/coffee-a-001-2.jpg",
+      "/products/coffee-a-001-3.jpg",
+      "/products/coffee-a-001-4.jpg",
+    ],
+  },
   {
     id: "soup-white-001",
     name: "スープカップ",
@@ -75,7 +99,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
-    maxQuantity: 5,
+    maxQuantity: 4,
 
     size: "直径9cm × 高さ6.5cm",
     oven: false,
@@ -99,7 +123,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "小さめのカップです。暖かいものでも冷たいものでも色々なシーンで利用できます。",
-    maxQuantity: 5,
+    maxQuantity: 4,
 
     size: "直径9cm × 高さ6.5cm",
     oven: false,
@@ -117,13 +141,13 @@ export const products: Product[] = [
 
   {
     id: "meshiwan-flat-001",
-    name: "飯碗（平形）",
+    name: "飯碗（大きめ・平形）",
     price: 2200,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
       "白いごはんが引き立つ黒釉。開いた形は、卵かけごはんが食べやすい。また他にも何かを盛れるように少し大きめの飯碗です。",
-    maxQuantity: 6,
+    maxQuantity: 5,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: true,
@@ -142,13 +166,13 @@ export const products: Product[] = [
 
   {
     id: "meshiwan-bowl-001",
-    name: "飯碗（椀形）",
+    name: "飯碗（小さめ・椀形）",
     price: 2000,
     origin: "益子焼（山口慶祐）",
     category: "飯碗・丼",
     description:
       "おわん型の飯碗、小さめのサイズが好みの方へ",
-    maxQuantity: 10,
+    maxQuantity: 5,
 
     size: "直径11.5cm × 高さ5.5cm",
     oven: true,
@@ -165,12 +189,36 @@ export const products: Product[] = [
     ],
   },
 
+   {
+    id: "nandemo-b-001",
+    name: "なんでも受け止める器（黒・緑釉流れ）",
+    price: 3300,
+    origin: "益子焼（山口慶祐）",
+    category: "鉢・ボウル",
+    description:
+      "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
+    maxQuantity: 2,
+
+    size: "直径21cm × 高さ5cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/nandemo-b-001.jpg",
+      "/products/nandemo-b-001-1.jpg",
+      "/products/nandemo-b-001-2.jpg",
+      "/products/nandemo-b-001-4.jpg",
+    ],
+  },
+
   {
     id: "nandemo-a-001",
-    name: "中皿",
+    name: "なんでも受け止める器（白）",
     price: 2800,
     origin: "益子焼（山口慶祐）",
-    category: "飯碗・丼",
+    category: "鉢・ボウル",
     description:
       "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
     maxQuantity: 4,
@@ -223,7 +271,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "お漬物やちょっとしたものを盛るときに重宝します。",
-    maxQuantity: 6,
+    maxQuantity: 4,
 
     size: "約9cm × 6.5cm × 高さ2.5cm",
     oven: true,
@@ -247,7 +295,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "切り身魚やカプレーゼなど趣向を変えてたまには長方形の器を。",
-    maxQuantity: 5,
+    maxQuantity: 4,
 
     size: "約21cm × 12cm × 高さ2.5cm",
     oven: true,
@@ -363,6 +411,7 @@ export const products: Product[] = [
     ],
   },
 
+
   {
     id: "plate-large-001",
     name: "大皿（リム皿）",
@@ -395,7 +444,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "ほどよい深さがあり、サラダや煮物、アサイーなど幅広い料理に使えるボウル。",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "直径14.5cm × 高さ6.5cm",
     oven: false,
@@ -496,7 +545,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "オーブン料理をそのまま食卓へ運べるグラタン皿。グラタンやドリアはもちろん、焼き野菜やオーブン料理にも。熱々の料理と器の表情を一緒に楽しめます。",
-    maxQuantity: 7,
+    maxQuantity: 5,
 
     size: "直径14cm × 高さ5.5cm",
     oven: true,
@@ -730,7 +779,7 @@ export const products: Product[] = [
     category: "花器",
     description:
       "蚊取り線香置きに",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "17.5cm × 10cm × 高さ11cm",
     oven: false,
