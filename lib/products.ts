@@ -197,7 +197,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "直径21cm × 高さ5cm",
     oven: true,
