@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { products } from "../../lib/products"
+import { giftCards } from "../../lib/giftCards"
 
 type CartItem = {
 id: string;
@@ -28,6 +29,9 @@ const [shipping, setShipping] = useState<ShippingType>("other");
 const [giftWrapping, setGiftWrapping] = useState(false);
 const [note, setNote] = useState("");
 const [loading, setLoading] = useState(false);
+const [giftCardCode, setGiftCardCode] = useState("");
+const [giftCardAmount, setGiftCardAmount] = useState(0);
+const [giftCardError, setGiftCardError] = useState("");
 
 useEffect(() => {
 const saved = localStorage.getItem("cart");
@@ -156,6 +160,34 @@ subtotal +
 shippingFee +
 wrappingFee;
 
+const paymentTotal =
+Math.max(
+  0,
+  total - giftCardAmount
+);
+
+const handleGiftCardApply = () => {
+  const code = giftCardCode.trim();
+
+  if (!code) {
+    setGiftCardError("ギフトカードコードを入力してください。");
+    setGiftCardAmount(0);
+    return;
+  }
+
+  const amount = giftCards[code];
+
+  if (!amount) {
+    setGiftCardError("有効なギフトカードコードではありません。");
+    setGiftCardAmount(0);
+    return;
+  }
+
+  setGiftCardAmount(
+    Math.min(amount, total)
+  );
+  setGiftCardError("");
+};
 const handleCheckout = async () => {
 if (cart.length === 0) return;
 
@@ -171,10 +203,11 @@ headers: {
 "application/json",
 },
 body: JSON.stringify({
-items: cart,
-shippingFee,
-giftWrapping,
-note,
+  items: cart,
+  shippingFee,
+  giftWrapping,
+  note,
+  giftCardCode,
 }),
 }
 );
@@ -791,12 +824,98 @@ borderTop:
 fontSize: "17px",
 }}
 >
-<span>合計</span>
+<span>お支払い合計</span>
 <span>
 ¥
-{total.toLocaleString()}
+{paymentTotal.toLocaleString()}
 </span>
 </div>
+</section>
+
+<section
+  style={{
+    marginTop: "30px",
+    paddingTop: "25px",
+    borderTop: "1px solid #ddd",
+  }}
+>
+  <h2
+    style={{
+      fontSize: "16px",
+      fontWeight: 400,
+      marginBottom: "20px",
+    }}
+  >
+    ギフトカード
+  </h2>
+
+  <div
+    style={{
+      display: "flex",
+      gap: "10px",
+    }}
+  >
+    <input
+      type="text"
+      value={giftCardCode}
+      onChange={(e) => {
+        setGiftCardCode(e.target.value);
+        setGiftCardError("");
+      }}
+      placeholder="ギフトカードコード"
+      style={{
+        flex: 1,
+        padding: "12px",
+        border: "1px solid #ccc",
+        fontFamily: "inherit",
+        fontSize: "14px",
+        boxSizing: "border-box",
+      }}
+    />
+
+    <button
+      type="button"
+      onClick={handleGiftCardApply}
+      style={{
+        padding: "12px 20px",
+        border: "1px solid #222",
+        background: "#fff",
+        color: "#222",
+        fontFamily: "inherit",
+        fontSize: "14px",
+        cursor: "pointer",
+      }}
+    >
+      適用
+    </button>
+  </div>
+
+  {giftCardError && (
+    <p
+      style={{
+        marginTop: "10px",
+        marginBottom: 0,
+        fontSize: "12px",
+        color: "#b00020",
+      }}
+    >
+      {giftCardError}
+    </p>
+  )}
+
+  {giftCardAmount > 0 && (
+    <div
+      style={{
+        marginTop: "15px",
+        fontSize: "14px",
+      }}
+    >
+      ギフトカード割引：
+      <span style={{ marginLeft: "10px" }}>
+        −¥{giftCardAmount.toLocaleString()}
+      </span>
+    </div>
+  )}
 </section>
 
 <button
