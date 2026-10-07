@@ -122,7 +122,7 @@ export async function POST(req: Request) {
     }
 
     /*
-     * Stripeの明細
+     * Stripeの商品明細
      */
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
       validatedItems.map((item) => ({
@@ -189,6 +189,42 @@ export async function POST(req: Request) {
     }
 
     /*
+     * Stripeに保存する注文情報
+     */
+    const orderMetadata = {
+      gift_card_code:
+        giftCardCode || "なし",
+
+      gift_card_amount:
+        giftCardAmount.toString(),
+
+      subtotal:
+        subtotal.toString(),
+
+      shipping_fee:
+        shippingFee.toString(),
+
+      gift_wrapping:
+        giftWrapping
+          ? "希望あり"
+          : "希望なし",
+
+      gift_wrapping_fee:
+        giftWrappingFee.toString(),
+
+      original_total:
+        total.toString(),
+
+      payment_total:
+        (total - giftCardAmount).toString(),
+
+      note:
+        note.trim() !== ""
+          ? note
+          : "なし",
+    };
+
+    /*
      * Stripe Checkout
      */
     const sessionParams: Stripe.Checkout.SessionCreateParams =
@@ -210,37 +246,16 @@ export async function POST(req: Request) {
 
         line_items: lineItems,
 
-        metadata: {
-          gift_card_code:
-            giftCardCode || "なし",
+        /*
+         * Checkout Session側のmetadata
+         */
+        metadata: orderMetadata,
 
-          gift_card_amount:
-            giftCardAmount.toString(),
-
-          subtotal:
-            subtotal.toString(),
-
-          shipping_fee:
-            shippingFee.toString(),
-
-          gift_wrapping:
-            giftWrapping
-              ? "希望あり"
-              : "希望なし",
-
-          gift_wrapping_fee:
-            giftWrappingFee.toString(),
-
-          original_total:
-            total.toString(),
-
-          payment_total:
-            (total - giftCardAmount).toString(),
-
-          note:
-            note.trim() !== ""
-              ? note
-              : "なし",
+        /*
+         * PaymentIntent側のmetadata
+         */
+        payment_intent_data: {
+          metadata: orderMetadata,
         },
 
         success_url:
@@ -250,6 +265,9 @@ export async function POST(req: Request) {
           `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       };
 
+    /*
+     * ギフトカード割引を適用
+     */
     if (couponId) {
       sessionParams.discounts = [
         {
