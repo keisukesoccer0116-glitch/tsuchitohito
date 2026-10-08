@@ -6,965 +6,1292 @@ import { products } from "../../lib/products"
 import { giftCards } from "../../lib/giftCards"
 
 type CartItem = {
-id: string;
-name: string;
-price: number;
-quantity: number;
-maxQuantity?: number;
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  maxQuantity?: number;
 };
 
-type ShippingType = "other" | "hokkaidoKyushu" | "okinawa"
+type ShippingType =
+  | "other"
+  | "hokkaidoKyushu"
+  | "okinawa"
 
-const shippingPrices: Record<ShippingType, number> = {
-other: 1980,
-hokkaidoKyushu: 2500,
-okinawa: 3000,
+const shippingPrices: Record<
+  ShippingType,
+  number
+> = {
+  other: 1980,
+  hokkaidoKyushu: 2500,
+  okinawa: 3000,
 };
 
 const giftWrappingPrice = 550;
 
 export default function CartPage() {
-const [cart, setCart] = useState<CartItem[]>([]);
-const [shipping, setShipping] = useState<ShippingType>("other");
-const [giftWrapping, setGiftWrapping] = useState(false);
-const [note, setNote] = useState("");
-const [loading, setLoading] = useState(false);
-const [giftCardCode, setGiftCardCode] = useState("");
-const [giftCardAmount, setGiftCardAmount] = useState(0);
-const [giftCardError, setGiftCardError] = useState("");
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [shipping, setShipping] =
+    useState<ShippingType>("other");
 
-useEffect(() => {
-const saved = localStorage.getItem("cart");
+  const [giftWrapping, setGiftWrapping] =
+    useState(false);
 
-if (!saved) {
-setCart([]);
-window.dispatchEvent(new Event("cartUpdated"));
-return;
-}
+  const [note, setNote] =
+    useState("");
 
-try {
-const parsed: CartItem[] = JSON.parse(saved);
+  const [loading, setLoading] =
+    useState(false);
 
-const corrected = parsed
-.map((item) => {
-const product = products.find(
-(p) => p.id === item.id
-);
+  const [giftCardCode, setGiftCardCode] =
+    useState("");
 
-const max =
-product?.maxQuantity ?? 10;
+  const [giftCardAmount, setGiftCardAmount] =
+    useState(0);
 
-return {
-...item,
-maxQuantity: max,
-quantity: Math.min(
-item.quantity,
-max
-),
-};
-})
-.filter((item) => item.quantity > 0);
+  const [giftCardError, setGiftCardError] =
+    useState("");
 
-setCart(corrected);
+  // 0円注文用のお客様情報
+  const [customerName, setCustomerName] =
+    useState("");
 
-localStorage.setItem(
-"cart",
-JSON.stringify(corrected)
-);
+  const [customerEmail, setCustomerEmail] =
+    useState("");
 
-window.dispatchEvent(
-new Event("cartUpdated")
-);
-} catch (error) {
-console.error(
-"カート情報の読み込みに失敗しました。",
-error
-);
+  const [phone, setPhone] =
+    useState("");
 
-localStorage.removeItem("cart");
-setCart([]);
+  const [address, setAddress] =
+    useState("");
 
-window.dispatchEvent(
-new Event("cartUpdated")
-);
-}
-}, []);
+  useEffect(() => {
+    const saved =
+      localStorage.getItem("cart");
 
-const saveCart = (newCart: CartItem[]) => {
-setCart(newCart);
+    if (!saved) {
+      setCart([]);
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+      return;
+    }
 
-localStorage.setItem(
-"cart",
-JSON.stringify(newCart)
-);
+    try {
+      const parsed: CartItem[] =
+        JSON.parse(saved);
 
-window.dispatchEvent(
-new Event("cartUpdated")
-);
-};
+      const corrected = parsed
+        .map((item) => {
+          const product =
+            products.find(
+              (p) => p.id === item.id
+            );
 
-const changeQuantity = (
-id: string,
-delta: number
-) => {
-const newCart = cart
-.map((item) => {
-if (item.id !== id) return item;
+          const max =
+            product?.maxQuantity ?? 10;
 
-const max =
-item.maxQuantity ?? 10;
+          return {
+            ...item,
+            maxQuantity: max,
+            quantity: Math.min(
+              item.quantity,
+              max
+            ),
+          };
+        })
+        .filter(
+          (item) => item.quantity > 0
+        );
 
-const quantity = Math.min(
-max,
-Math.max(
-0,
-item.quantity + delta
-)
-);
+      setCart(corrected);
 
-return {
-...item,
-quantity,
-};
-})
-.filter(
-(item) => item.quantity > 0
-);
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(corrected)
+      );
 
-saveCart(newCart);
-};
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+    } catch (error) {
+      console.error(
+        "カート情報の読み込みに失敗しました。",
+        error
+      );
 
-const removeItem = (id: string) => {
-saveCart(
-cart.filter(
-(item) => item.id !== id
-)
-);
-};
+      localStorage.removeItem("cart");
+      setCart([]);
 
-const subtotal = cart.reduce(
-(sum, item) =>
-sum + item.price * item.quantity,
-0
-);
+      window.dispatchEvent(
+        new Event("cartUpdated")
+      );
+    }
+  }, []);
 
-const shippingFee =
-shippingPrices[shipping];
+  const saveCart = (
+    newCart: CartItem[]
+  ) => {
+    setCart(newCart);
 
-const wrappingFee = giftWrapping
-? giftWrappingPrice
-: 0;
+    localStorage.setItem(
+      "cart",
+      JSON.stringify(newCart)
+    );
 
-const total =
-subtotal +
-shippingFee +
-wrappingFee;
+    window.dispatchEvent(
+      new Event("cartUpdated")
+    );
+  };
 
-const paymentTotal =
-Math.max(
-  0,
-  total - giftCardAmount
-);
+  const changeQuantity = (
+    id: string,
+    delta: number
+  ) => {
+    const newCart = cart
+      .map((item) => {
+        if (item.id !== id) {
+          return item;
+        }
 
-const handleGiftCardApply = () => {
-  const code = giftCardCode.trim();
+        const max =
+          item.maxQuantity ?? 10;
 
-  if (!code) {
-    setGiftCardError("ギフトカードコードを入力してください。");
-    setGiftCardAmount(0);
-    return;
-  }
+        const quantity = Math.min(
+          max,
+          Math.max(
+            0,
+            item.quantity + delta
+          )
+        );
 
-  const amount = giftCards[code];
+        return {
+          ...item,
+          quantity,
+        };
+      })
+      .filter(
+        (item) => item.quantity > 0
+      );
 
-  if (!amount) {
-    setGiftCardError("有効なギフトカードコードではありません。");
-    setGiftCardAmount(0);
-    return;
-  }
+    saveCart(newCart);
+  };
 
-  setGiftCardAmount(
-    Math.min(amount, total)
+  const removeItem = (
+    id: string
+  ) => {
+    saveCart(
+      cart.filter(
+        (item) => item.id !== id
+      )
+    );
+  };
+
+  const subtotal = cart.reduce(
+    (sum, item) =>
+      sum +
+      item.price * item.quantity,
+    0
   );
-  setGiftCardError("");
-};
-const handleCheckout = async () => {
-if (cart.length === 0) return;
 
-setLoading(true);
+  const shippingFee =
+    shippingPrices[shipping];
 
-try {
-const response = await fetch(
-"/api/checkout",
-{
-method: "POST",
-headers: {
-"Content-Type":
-"application/json",
-},
-body: JSON.stringify({
-  items: cart,
-  shippingFee,
-  giftWrapping,
-  note,
-  giftCardCode,
-}),
-}
-);
+  const wrappingFee =
+    giftWrapping
+      ? giftWrappingPrice
+      : 0;
 
-const data =
-await response.json();
+  const total =
+    subtotal +
+    shippingFee +
+    wrappingFee;
 
-if (!response.ok) {
-throw new Error(
-data?.error ||
-"決済の準備に失敗しました。"
-);
-}
+  const paymentTotal =
+    Math.max(
+      0,
+      total - giftCardAmount
+    );
 
-if (!data?.url) {
-throw new Error(
-"決済ページのURLを取得できませんでした。"
-);
-}
+  const isFreeOrder =
+    paymentTotal === 0;
 
-window.location.href =
-data.url;
-} catch (error) {
-console.error(
-"Checkout error:",
-error
-);
+  const handleGiftCardApply =
+    () => {
+      const code =
+        giftCardCode.trim();
 
-alert(
-error instanceof Error
-? error.message
-: "決済の準備に失敗しました。"
-);
+      if (!code) {
+        setGiftCardError(
+          "ギフトカードコードを入力してください。"
+        );
+        setGiftCardAmount(0);
+        return;
+      }
 
-setLoading(false);
-}
-};
+      const amount =
+        giftCards[code];
 
-if (cart.length === 0) {
-return (
-<main
-style={{
-maxWidth: "900px",
-margin: "0 auto",
-padding:
-"160px 20px 120px",
-textAlign: "center",
-}}
->
-<h1
-style={{
-fontSize: "24px",
-fontWeight: 400,
-marginBottom: "40px",
-}}
->
-カート
-</h1>
+      if (!amount) {
+        setGiftCardError(
+          "有効なギフトカードコードではありません。"
+        );
+        setGiftCardAmount(0);
+        return;
+      }
 
-<p
-style={{
-fontSize: "14px",
-lineHeight: 2,
-color: "#555",
-marginBottom: "40px",
-}}
->
-カートに商品がありません。
-</p>
+      setGiftCardAmount(
+        Math.min(
+          amount,
+          total
+        )
+      );
 
-<p
-style={{
-fontSize: "13px",
-lineHeight: 2,
-color: "#666",
-marginBottom: "35px",
-}}
->
-気になることがありましたら
-<br />
-Instagramのメッセージよりご連絡ください。
-</p>
+      setGiftCardError("");
+    };
 
-<Link
-href="/store"
-style={{
-display: "inline-block",
-padding: "14px 30px",
-border:
-"1px solid #222",
-color: "#222",
-textDecoration:
-"none",
-fontSize: "14px",
-}}
->
-商品一覧を見る
-</Link>
-</main>
-);
-}
+  const handleCheckout =
+    async () => {
+      if (cart.length === 0) {
+        return;
+      }
 
-return (
-<main
-style={{
-maxWidth: "1000px",
-margin: "0 auto",
-padding:
-"140px 20px 100px",
-}}
->
-<h1
-style={{
-fontSize: "24px",
-fontWeight: 400,
-marginBottom: "50px",
-}}
->
-カート
-</h1>
+      // 0円注文の場合の入力チェック
+      if (isFreeOrder) {
+        if (!customerName.trim()) {
+          alert(
+            "お名前を入力してください。"
+          );
+          return;
+        }
 
-<section>
-{cart.map((item) => {
-const product =
-products.find(
-(p) => p.id === item.id
-);
+        if (!customerEmail.trim()) {
+          alert(
+            "メールアドレスを入力してください。"
+          );
+          return;
+        }
 
-const image =
-product?.images?.[0] || ""
+        if (!phone.trim()) {
+          alert(
+            "電話番号を入力してください。"
+          );
+          return;
+        }
 
-const max =
-item.maxQuantity ?? 10;
+        if (!address.trim()) {
+          alert(
+            "住所を入力してください。"
+          );
+          return;
+        }
+      }
 
-const isMax =
-item.quantity >= max;
+      setLoading(true);
 
-return (
-<div
-key={item.id}
-style={{
-display: "grid",
-gridTemplateColumns:
-"100px 1fr auto",
-gap: "20px",
-padding: "20px 0",
-borderBottom:
-"1px solid #ddd",
-}}
->
-{image ? (
-<img
-src={image}
-alt={item.name}
-style={{
-width: "100px",
-height: "100px",
-objectFit: "cover",
-}}
-/>
-) : (
-<div
-style={{
-width: "100px",
-height: "100px",
-background: "#eee",
-}}
-/>
-)}
+      try {
+        const response =
+          await fetch(
+            "/api/checkout",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+              body:
+                JSON.stringify({
+                  items: cart,
+                  shippingFee,
+                  giftWrapping,
+                  note,
+                  giftCardCode,
 
-<div>
-<div
-style={{
-fontSize: "15px",
-marginBottom:
-"10px",
-}}
->
-{item.name}
-</div>
+                  // 0円注文用
+                  customerName,
+                  customerEmail,
+                  phone,
+                  address,
+                }),
+            }
+          );
 
-<div
-style={{
-fontSize: "14px",
-color: "#555",
-marginBottom:
-"15px",
-}}
->
-¥
-{item.price.toLocaleString()}
-</div>
+        const data =
+          await response.json();
 
-<div
-style={{
-display: "flex",
-alignItems:
-"center",
-gap: "12px",
-}}
->
-<button
-type="button"
-onClick={() =>
-changeQuantity(
-item.id,
--1
-)
-}
-style={{
-width: "30px",
-height: "30px",
-border:
-"1px solid #ccc",
-background: "#fff",
-cursor:
-"pointer",
-}}
->
-−
-</button>
+        if (!response.ok) {
+          throw new Error(
+            data?.error ||
+              "決済の準備に失敗しました。"
+          );
+        }
 
-<span
-style={{
-minWidth: "20px",
-textAlign:
-"center",
-fontSize: "14px",
-}}
->
-{item.quantity}
-</span>
+        if (!data?.url) {
+          throw new Error(
+            "注文ページのURLを取得できませんでした。"
+          );
+        }
 
-<button
-type="button"
-onClick={() =>
-changeQuantity(
-item.id,
-1
-)
-}
-disabled={isMax}
-style={{
-width: "30px",
-height: "30px",
-border:
-"1px solid #ccc",
-background: "#fff",
-cursor: isMax
-? "default"
-: "pointer",
-opacity: isMax
-? 0.4
-: 1,
-}}
->
-＋
-</button>
-</div>
+        window.location.href =
+          data.url;
+      } catch (error) {
+        console.error(
+          "Checkout error:",
+          error
+        );
 
-{isMax && (
-<p
-style={{
-fontSize: "12px",
-color: "#777",
-marginTop:
-"10px",
-marginBottom: 0,
-}}
->
-この商品は最大
-{max}
-点までです
-</p>
-)}
-</div>
+        alert(
+          error instanceof Error
+            ? error.message
+            : "決済の準備に失敗しました。"
+        );
 
-<div
-style={{
-textAlign: "right",
-minWidth: "90px",
-}}
->
-<div
-style={{
-fontSize: "14px",
-marginBottom:
-"18px",
-}}
->
-¥
-{(
-item.price *
-item.quantity
-).toLocaleString()}
-</div>
+        setLoading(false);
+      }
+    };
 
-<button
-type="button"
-onClick={() =>
-removeItem(
-item.id
-)
-}
-style={{
-border: "none",
-background:
-"none",
-padding: 0,
-fontSize: "12px",
-color: "#777",
-textDecoration:
-"underline",
-cursor:
-"pointer",
-}}
->
-削除
-</button>
-</div>
-</div>
-);
-})}
-</section>
+  if (cart.length === 0) {
+    return (
+      <main
+        style={{
+          maxWidth: "900px",
+          margin: "0 auto",
+          padding:
+            "160px 20px 120px",
+          textAlign: "center",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "24px",
+            fontWeight: 400,
+            marginBottom: "40px",
+          }}
+        >
+          カート
+        </h1>
 
-<section
-style={{
-marginTop: "50px",
-paddingTop: "30px",
-borderTop:
-"1px solid #ddd",
-}}
->
-<h2
-style={{
-fontSize: "18px",
-fontWeight: 400,
-marginBottom:
-"25px",
-}}
->
-配送先
-</h2>
+        <p
+          style={{
+            fontSize: "14px",
+            lineHeight: 2,
+            color: "#555",
+            marginBottom: "40px",
+          }}
+        >
+          カートに商品がありません。
+        </p>
 
-<label
-style={{
-display: "flex",
-alignItems:
-"center",
-gap: "10px",
-fontSize: "14px",
-marginBottom:
-"15px",
-}}
->
-<input
-type="radio"
-name="shipping"
-value="other"
-checked={
-shipping === "other"
-}
-onChange={() =>
-setShipping("other")
-}
-/>
-北海道・九州・沖縄以外
-</label>
+        <p
+          style={{
+            fontSize: "13px",
+            lineHeight: 2,
+            color: "#666",
+            marginBottom: "35px",
+          }}
+        >
+          気になることがありましたら
+          <br />
+          Instagramのメッセージよりご連絡ください。
+        </p>
 
-<label
-style={{
-display: "flex",
-alignItems:
-"center",
-gap: "10px",
-fontSize: "14px",
-marginBottom:
-"15px",
-}}
->
-<input
-type="radio"
-name="shipping"
-value="hokkaidoKyushu"
-checked={
-shipping ===
-"hokkaidoKyushu"
-}
-onChange={() =>
-setShipping(
-"hokkaidoKyushu"
-)
-}
-/>
-北海道・九州
-</label>
+        <Link
+          href="/store"
+          style={{
+            display: "inline-block",
+            padding: "14px 30px",
+            border:
+              "1px solid #222",
+            color: "#222",
+            textDecoration: "none",
+            fontSize: "14px",
+          }}
+        >
+          商品一覧を見る
+        </Link>
+      </main>
+    );
+  }
 
-<label
-style={{
-display: "flex",
-alignItems:
-"center",
-gap: "10px",
-fontSize: "14px",
-}}
->
-<input
-type="radio"
-name="shipping"
-value="okinawa"
-checked={
-shipping ===
-"okinawa"
-}
-onChange={() =>
-setShipping(
-"okinawa"
-)
-}
-/>
-沖縄
-</label>
-</section>
-
-<section
-style={{
-marginTop: "50px",
-paddingTop: "30px",
-borderTop:
-"1px solid #ddd",
-}}
->
-<h2
-style={{
-fontSize: "18px",
-fontWeight: 400,
-marginBottom:
-"25px",
-}}
->
-ギフト包装
-</h2>
-
-<label
-style={{
-display: "flex",
-alignItems:
-"center",
-gap: "10px",
-fontSize: "14px",
-}}
->
-<input
-type="checkbox"
-checked={
-giftWrapping
-}
-onChange={(e) =>
-setGiftWrapping(
-e.target.checked
-)
-}
-/>
-ギフト包装を利用する（550円）
-</label>
-</section>
-
-<section
-style={{
-marginTop: "50px",
-paddingTop: "30px",
-borderTop:
-"1px solid #ddd",
-}}
->
-<h2
-style={{
-fontSize: "18px",
-fontWeight: 400,
-marginBottom:
-"25px",
-}}
->
-備考
-</h2>
-
-<textarea
-value={note}
-onChange={(e) =>
-setNote(e.target.value)
-}
-placeholder="ご希望の配送日時などがありましたらご記入ください。"
-rows={5}
-style={{
-width: "100%",
-padding: "12px",
-border:
-"1px solid #ccc",
-resize: "vertical",
-fontFamily:
-"inherit",
-fontSize: "14px",
-lineHeight: 1.8,
-boxSizing:
-"border-box",
-}}
-/>
-
-<div
-style={{
-marginTop: "15px",
-fontSize: "12px",
-color: "#777",
-lineHeight: 1.8,
-}}
->
-<p
-style={{
-margin:
-"0 0 5px",
-}}
->
-・配送はヤマト運輸でのお届けとなります。
-</p>
-
-<p
-style={{
-margin:
-"0 0 5px",
-}}
->
-・通常、発送まで2〜3日ほどいただきます。
-</p>
-
-<p
-style={{
-margin: 0,
-}}
->
-・発送後、追跡番号と配送状況をご登録のメールアドレスへお知らせします。
-</p>
-</div>
-</section>
-
-<section
-style={{
-marginTop: "50px",
-paddingTop: "30px",
-borderTop:
-"1px solid #ddd",
-}}
->
-<div
-style={{
-display: "flex",
-justifyContent:
-"space-between",
-marginBottom:
-"15px",
-fontSize: "14px",
-}}
->
-<span>商品合計</span>
-<span>
-¥
-{subtotal.toLocaleString()}
-</span>
-</div>
-
-<div
-style={{
-display: "flex",
-justifyContent:
-"space-between",
-marginBottom:
-"15px",
-fontSize: "14px",
-}}
->
-<span>送料</span>
-<span>
-¥
-{shippingFee.toLocaleString()}
-</span>
-</div>
-
-{giftWrapping && (
-<div
-style={{
-display: "flex",
-justifyContent:
-"space-between",
-marginBottom:
-"15px",
-fontSize: "14px",
-}}
->
-<span>ギフト包装</span>
-<span>
-¥
-{giftWrappingPrice.toLocaleString()}
-</span>
-</div>
-)}
-
-<div
-style={{
-display: "flex",
-justifyContent:
-"space-between",
-paddingTop: "20px",
-borderTop:
-"1px solid #ddd",
-fontSize: "17px",
-}}
->
-<span>お支払い合計</span>
-<span>
-¥
-{paymentTotal.toLocaleString()}
-</span>
-</div>
-</section>
-
-<section
-  style={{
-    marginTop: "30px",
-    paddingTop: "25px",
-    borderTop: "1px solid #ddd",
-  }}
->
-  <h2
-    style={{
-      fontSize: "16px",
-      fontWeight: 400,
-      marginBottom: "20px",
-    }}
-  >
-    ギフトカード
-  </h2>
-
-  <div
-    style={{
-      display: "flex",
-      gap: "10px",
-    }}
-  >
-    <input
-      type="text"
-      value={giftCardCode}
-      onChange={(e) => {
-        setGiftCardCode(e.target.value);
-        setGiftCardError("");
-      }}
-      placeholder="ギフトカードコード"
+  return (
+    <main
       style={{
-        flex: 1,
-        padding: "12px",
-        border: "1px solid #ccc",
-        fontFamily: "inherit",
-        fontSize: "14px",
-        boxSizing: "border-box",
-      }}
-    />
-
-    <button
-      type="button"
-      onClick={handleGiftCardApply}
-      style={{
-        padding: "12px 20px",
-        border: "1px solid #222",
-        background: "#fff",
-        color: "#222",
-        fontFamily: "inherit",
-        fontSize: "14px",
-        cursor: "pointer",
+        maxWidth: "1000px",
+        margin: "0 auto",
+        padding:
+          "140px 20px 100px",
       }}
     >
-      適用
-    </button>
-  </div>
+      <h1
+        style={{
+          fontSize: "24px",
+          fontWeight: 400,
+          marginBottom: "50px",
+        }}
+      >
+        カート
+      </h1>
 
-  {giftCardError && (
-    <p
-      style={{
-        marginTop: "10px",
-        marginBottom: 0,
-        fontSize: "12px",
-        color: "#b00020",
-      }}
-    >
-      {giftCardError}
-    </p>
-  )}
+      <section>
+        {cart.map((item) => {
+          const product =
+            products.find(
+              (p) => p.id === item.id
+            );
 
-  {giftCardAmount > 0 && (
-    <div
-      style={{
-        marginTop: "15px",
-        fontSize: "14px",
-      }}
-    >
-      ギフトカード割引：
-      <span style={{ marginLeft: "10px" }}>
-        −¥{giftCardAmount.toLocaleString()}
-      </span>
-    </div>
-  )}
-</section>
+          const image =
+            product?.images?.[0] || "";
 
-<button
-type="button"
-onClick={handleCheckout}
-disabled={loading}
-style={{
-display: "block",
-width: "100%",
-marginTop: "40px",
-padding: "18px",
-border: "none",
-background: "#222",
-color: "#fff",
-fontSize: "15px",
-fontFamily:
-"inherit",
-cursor: loading
-? "default"
-: "pointer",
-opacity: loading
-? 0.6
-: 1,
-}}
->
-{loading
-? "決済ページへ移動しています..."
-: "購入手続きへ進む"}
-</button>
+          const max =
+            item.maxQuantity ?? 10;
 
-<div
-style={{
-textAlign:
-"center",
-marginTop: "30px",
-}}
->
-<Link
-href="/store"
-style={{
-fontSize: "13px",
-color: "#555",
-textDecoration:
-"underline",
-}}
->
-商品一覧を見る
-</Link>
-</div>
-</main>
-);
+          const isMax =
+            item.quantity >= max;
+
+          return (
+            <div
+              key={item.id}
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "100px 1fr auto",
+                gap: "20px",
+                padding: "20px 0",
+                borderBottom:
+                  "1px solid #ddd",
+              }}
+            >
+              {image ? (
+                <img
+                  src={image}
+                  alt={item.name}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                  }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    background: "#eee",
+                  }}
+                />
+              )}
+
+              <div>
+                <div
+                  style={{
+                    fontSize: "15px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {item.name}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: "14px",
+                    color: "#555",
+                    marginBottom: "15px",
+                  }}
+                >
+                  ¥
+                  {item.price.toLocaleString()}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems:
+                      "center",
+                    gap: "12px",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      changeQuantity(
+                        item.id,
+                        -1
+                      )
+                    }
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      border:
+                        "1px solid #ccc",
+                      background: "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    −
+                  </button>
+
+                  <span
+                    style={{
+                      minWidth: "20px",
+                      textAlign: "center",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {item.quantity}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      changeQuantity(
+                        item.id,
+                        1
+                      )
+                    }
+                    disabled={isMax}
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      border:
+                        "1px solid #ccc",
+                      background: "#fff",
+                      cursor: isMax
+                        ? "default"
+                        : "pointer",
+                      opacity: isMax
+                        ? 0.4
+                        : 1,
+                    }}
+                  >
+                    ＋
+                  </button>
+                </div>
+
+                {isMax && (
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "#777",
+                      marginTop: "10px",
+                      marginBottom: 0,
+                    }}
+                  >
+                    この商品は最大
+                    {max}
+                    点までです
+                  </p>
+                )}
+              </div>
+
+              <div
+                style={{
+                  textAlign: "right",
+                  minWidth: "90px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "14px",
+                    marginBottom: "18px",
+                  }}
+                >
+                  ¥
+                  {(
+                    item.price *
+                    item.quantity
+                  ).toLocaleString()}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    removeItem(
+                      item.id
+                    )
+                  }
+                  style={{
+                    border: "none",
+                    background: "none",
+                    padding: 0,
+                    fontSize: "12px",
+                    color: "#777",
+                    textDecoration:
+                      "underline",
+                    cursor: "pointer",
+                  }}
+                >
+                  削除
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
+      <section
+        style={{
+          marginTop: "50px",
+          paddingTop: "30px",
+          borderTop:
+            "1px solid #ddd",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: 400,
+            marginBottom: "25px",
+          }}
+        >
+          配送先
+        </h2>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "14px",
+            marginBottom: "15px",
+          }}
+        >
+          <input
+            type="radio"
+            name="shipping"
+            value="other"
+            checked={
+              shipping === "other"
+            }
+            onChange={() =>
+              setShipping("other")
+            }
+          />
+          北海道・九州・沖縄以外
+        </label>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "14px",
+            marginBottom: "15px",
+          }}
+        >
+          <input
+            type="radio"
+            name="shipping"
+            value="hokkaidoKyushu"
+            checked={
+              shipping ===
+              "hokkaidoKyushu"
+            }
+            onChange={() =>
+              setShipping(
+                "hokkaidoKyushu"
+              )
+            }
+          />
+          北海道・九州
+        </label>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "14px",
+          }}
+        >
+          <input
+            type="radio"
+            name="shipping"
+            value="okinawa"
+            checked={
+              shipping === "okinawa"
+            }
+            onChange={() =>
+              setShipping(
+                "okinawa"
+              )
+            }
+          />
+          沖縄
+        </label>
+      </section>
+
+      <section
+        style={{
+          marginTop: "50px",
+          paddingTop: "30px",
+          borderTop:
+            "1px solid #ddd",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: 400,
+            marginBottom: "25px",
+          }}
+        >
+          ギフト包装
+        </h2>
+
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "14px",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={
+              giftWrapping
+            }
+            onChange={(e) =>
+              setGiftWrapping(
+                e.target.checked
+              )
+            }
+          />
+          ギフト包装を利用する（550円）
+        </label>
+      </section>
+
+      <section
+        style={{
+          marginTop: "50px",
+          paddingTop: "30px",
+          borderTop:
+            "1px solid #ddd",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "18px",
+            fontWeight: 400,
+            marginBottom: "25px",
+          }}
+        >
+          備考
+        </h2>
+
+        <textarea
+          value={note}
+          onChange={(e) =>
+            setNote(e.target.value)
+          }
+          placeholder="ご希望の配送日時などがありましたらご記入ください。"
+          rows={5}
+          style={{
+            width: "100%",
+            padding: "12px",
+            border:
+              "1px solid #ccc",
+            resize: "vertical",
+            fontFamily: "inherit",
+            fontSize: "14px",
+            lineHeight: 1.8,
+            boxSizing:
+              "border-box",
+          }}
+        />
+
+        <div
+          style={{
+            marginTop: "15px",
+            fontSize: "12px",
+            color: "#777",
+            lineHeight: 1.8,
+          }}
+        >
+          <p
+            style={{
+              margin: "0 0 5px",
+            }}
+          >
+            ・配送はヤマト運輸でのお届けとなります。
+          </p>
+
+          <p
+            style={{
+              margin: "0 0 5px",
+            }}
+          >
+            ・通常、発送まで2〜3日ほどいただきます。
+          </p>
+
+          <p
+            style={{
+              margin: 0,
+            }}
+          >
+            ・発送後、追跡番号と配送状況をご登録のメールアドレスへお知らせします。
+          </p>
+        </div>
+      </section>
+
+      <section
+        style={{
+          marginTop: "50px",
+          paddingTop: "30px",
+          borderTop:
+            "1px solid #ddd",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent:
+              "space-between",
+            marginBottom: "15px",
+            fontSize: "14px",
+          }}
+        >
+          <span>商品合計</span>
+
+          <span>
+            ¥
+            {subtotal.toLocaleString()}
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent:
+              "space-between",
+            marginBottom: "15px",
+            fontSize: "14px",
+          }}
+        >
+          <span>送料</span>
+
+          <span>
+            ¥
+            {shippingFee.toLocaleString()}
+          </span>
+        </div>
+
+        {giftWrapping && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent:
+                "space-between",
+              marginBottom: "15px",
+              fontSize: "14px",
+            }}
+          >
+            <span>ギフト包装</span>
+
+            <span>
+              ¥
+              {giftWrappingPrice.toLocaleString()}
+            </span>
+          </div>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent:
+              "space-between",
+            paddingTop: "20px",
+            borderTop:
+              "1px solid #ddd",
+            fontSize: "17px",
+          }}
+        >
+          <span>
+            お支払い合計
+          </span>
+
+          <span>
+            ¥
+            {paymentTotal.toLocaleString()}
+          </span>
+        </div>
+      </section>
+
+      <section
+        style={{
+          marginTop: "30px",
+          paddingTop: "25px",
+          borderTop:
+            "1px solid #ddd",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "16px",
+            fontWeight: 400,
+            marginBottom: "20px",
+          }}
+        >
+          ギフトカード
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+          }}
+        >
+          <input
+            type="text"
+            value={
+              giftCardCode
+            }
+            onChange={(e) => {
+              setGiftCardCode(
+                e.target.value
+              );
+              setGiftCardError("");
+            }}
+            placeholder="ギフトカードコード"
+            style={{
+              flex: 1,
+              padding: "12px",
+              border:
+                "1px solid #ccc",
+              fontFamily:
+                "inherit",
+              fontSize: "14px",
+              boxSizing:
+                "border-box",
+            }}
+          />
+
+          <button
+            type="button"
+            onClick={
+              handleGiftCardApply
+            }
+            style={{
+              padding:
+                "12px 20px",
+              border:
+                "1px solid #222",
+              background: "#fff",
+              color: "#222",
+              fontFamily:
+                "inherit",
+              fontSize: "14px",
+              cursor: "pointer",
+            }}
+          >
+            適用
+          </button>
+        </div>
+
+        {giftCardError && (
+          <p
+            style={{
+              marginTop: "10px",
+              marginBottom: 0,
+              fontSize: "12px",
+              color: "#b00020",
+            }}
+          >
+            {giftCardError}
+          </p>
+        )}
+
+        {giftCardAmount > 0 && (
+          <div
+            style={{
+              marginTop: "15px",
+              fontSize: "14px",
+            }}
+          >
+            ギフトカード割引：
+
+            <span
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              −¥
+              {giftCardAmount.toLocaleString()}
+            </span>
+          </div>
+        )}
+      </section>
+
+      {/* --------------------------------
+          0円注文時のみ表示
+      -------------------------------- */}
+      {isFreeOrder && (
+        <section
+          style={{
+            marginTop: "50px",
+            paddingTop: "30px",
+            borderTop:
+              "1px solid #ddd",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "18px",
+              fontWeight: 400,
+              marginBottom: "10px",
+            }}
+          >
+            お届け先情報
+          </h2>
+
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#777",
+              lineHeight: 1.8,
+              marginBottom: "25px",
+            }}
+          >
+            ギフトカードのご利用によりお支払い金額が0円となるため、
+            以下の情報をご入力ください。
+          </p>
+
+          <div
+            style={{
+              marginBottom: "20px",
+            }}
+          >
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                marginBottom: "8px",
+              }}
+            >
+              お名前
+              <span
+                style={{
+                  color: "#b00020",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
+            </label>
+
+            <input
+              type="text"
+              value={customerName}
+              onChange={(e) =>
+                setCustomerName(
+                  e.target.value
+                )
+              }
+              placeholder="山田 太郎"
+              style={{
+                width: "100%",
+                padding: "12px",
+                border:
+                  "1px solid #ccc",
+                fontFamily:
+                  "inherit",
+                fontSize: "14px",
+                boxSizing:
+                  "border-box",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              marginBottom: "20px",
+            }}
+          >
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                marginBottom: "8px",
+              }}
+            >
+              メールアドレス
+              <span
+                style={{
+                  color: "#b00020",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
+            </label>
+
+            <input
+              type="email"
+              value={customerEmail}
+              onChange={(e) =>
+                setCustomerEmail(
+                  e.target.value
+                )
+              }
+              placeholder="example@email.com"
+              style={{
+                width: "100%",
+                padding: "12px",
+                border:
+                  "1px solid #ccc",
+                fontFamily:
+                  "inherit",
+                fontSize: "14px",
+                boxSizing:
+                  "border-box",
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              marginBottom: "20px",
+            }}
+          >
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                marginBottom: "8px",
+              }}
+            >
+              電話番号
+              <span
+                style={{
+                  color: "#b00020",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
+            </label>
+
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) =>
+                setPhone(
+                  e.target.value
+                )
+              }
+              placeholder="090-1234-5678"
+              style={{
+                width: "100%",
+                padding: "12px",
+                border:
+                  "1px solid #ccc",
+                fontFamily:
+                  "inherit",
+                fontSize: "14px",
+                boxSizing:
+                  "border-box",
+              }}
+            />
+          </div>
+
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "14px",
+                marginBottom: "8px",
+              }}
+            >
+              お届け先住所
+              <span
+                style={{
+                  color: "#b00020",
+                  marginLeft: "4px",
+                }}
+              >
+                *
+              </span>
+            </label>
+
+            <textarea
+              value={address}
+              onChange={(e) =>
+                setAddress(
+                  e.target.value
+                )
+              }
+              placeholder="〒000-0000&#10;栃木県〇〇市〇〇町0-0-0"
+              rows={4}
+              style={{
+                width: "100%",
+                padding: "12px",
+                border:
+                  "1px solid #ccc",
+                resize: "vertical",
+                fontFamily:
+                  "inherit",
+                fontSize: "14px",
+                lineHeight: 1.8,
+                boxSizing:
+                  "border-box",
+              }}
+            />
+          </div>
+        </section>
+      )}
+
+      <button
+        type="button"
+        onClick={
+          handleCheckout
+        }
+        disabled={loading}
+        style={{
+          display: "block",
+          width: "100%",
+          marginTop: "40px",
+          padding: "18px",
+          border: "none",
+          background: "#222",
+          color: "#fff",
+          fontSize: "15px",
+          fontFamily:
+            "inherit",
+          cursor: loading
+            ? "default"
+            : "pointer",
+          opacity: loading
+            ? 0.6
+            : 1,
+        }}
+      >
+        {loading
+          ? isFreeOrder
+            ? "注文を確定しています..."
+            : "決済ページへ移動しています..."
+          : isFreeOrder
+          ? "注文を確定する"
+          : "購入手続きへ進む"}
+      </button>
+
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "30px",
+        }}
+      >
+        <Link
+          href="/store"
+          style={{
+            fontSize: "13px",
+            color: "#555",
+            textDecoration:
+              "underline",
+          }}
+        >
+          商品一覧を見る
+        </Link>
+      </div>
+    </main>
+  );
 }

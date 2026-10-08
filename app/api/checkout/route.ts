@@ -2,6 +2,7 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { giftCards } from "../../../lib/giftCards";
 import { products } from "../../../lib/products";
+import { sendOrderEmail } from "../../../lib/sendOrderEmail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -23,6 +24,34 @@ export async function POST(req: Request) {
         ? body.giftCardCode.trim()
         : "";
 
+    /*
+     * 0円注文用のお客様情報
+     * 通常決済の場合はStripe Checkout側で取得するので不要
+     */
+    const customerName =
+      typeof body.customerName === "string"
+        ? body.customerName.trim()
+        : "";
+
+    const customerEmail =
+      typeof body.customerEmail === "string"
+        ? body.customerEmail.trim()
+        : "";
+
+    const phone =
+      typeof body.phone === "string"
+        ? body.phone.trim()
+        : "";
+
+    const address =
+      typeof body.address === "string"
+        ? body.address.trim()
+        : "";
+
+    // -----------------------------
+    // 基本チェック
+    // -----------------------------
+
     if (!Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
         { error: "商品情報が正しくありません" },
@@ -41,9 +70,10 @@ export async function POST(req: Request) {
 
     const giftWrappingFee = giftWrapping ? 550 : 0;
 
-    /*
-     * 商品情報をサーバー側で確認
-     */
+    // -----------------------------
+    // 商品・数量をサーバー側で再確認
+    // -----------------------------
+
     const validatedItems = items.map((item: any) => {
       const product = products.find(
         (p) => p.id === item.id
@@ -79,26 +109,25 @@ export async function POST(req: Request) {
       };
     });
 
-    /*
-     * 商品小計
-     */
+    // -----------------------------
+    // 金額計算
+    // -----------------------------
+
     const subtotal = validatedItems.reduce(
       (sum, item) =>
         sum + item.price * item.quantity,
       0
     );
 
-    /*
-     * 注文合計
-     */
     const total =
       subtotal +
       shippingFee +
       giftWrappingFee;
 
-    /*
-     * ギフトカード
-     */
+    // -----------------------------
+    // ギフトカード
+    // -----------------------------
+
     let giftCardAmount = 0;
 
     if (giftCardCode) {
@@ -121,17 +150,105 @@ export async function POST(req: Request) {
       );
     }
 
-    /*
-     * 最終支払額
-     */
-    const paymentTotal = Math.max(
-      0,
-      total - giftCardAmount
-    );
+    const paymentTotal =
+      total - giftCardAmount;
 
-    /*
-     * Stripeの商品明細
-     */
+    // -----------------------------
+    // 0円注文
+    // -----------------------------
+    //
+    // Stripeを使用せず、
+    // Resendで注文メールを送る
+    //
+
+    if (paymentTotal === 0) {
+      if (!customerName) {
+        return NextResponse.json(
+          {
+            error: "お名前を入力してください",
+          },
+          { status: 400 }
+        );
+      }
+
+      if (!customerEmail) {
+        return NextResponse.json(
+          {
+            error: "メールアドレスを入力してください",
+          },
+          { status: 400 }
+        );
+      }
+
+      if (!phone) {
+        return NextResponse.json(
+          {
+            error: "電話番号を入力してください",
+          },
+          { status: 400 }
+        );
+      }
+
+      if (!address) {
+        return NextResponse.json(
+          {
+            error: "住所を入力してください",
+          },
+          { status: 400 }
+        );
+      }
+
+      await sendOrderEmail({
+        items: validatedItems.map((item) => ({
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+
+        subtotal,
+
+        shippingFee,
+
+        giftWrapping,
+
+        giftWrappingFee,
+
+        giftCardCode,
+
+        giftCardAmount,
+
+        originalTotal: total,
+
+        paymentTotal: 0,
+
+        note:
+          note.trim() !== ""
+            ? note
+            : "",
+
+        customerName,
+
+        customerEmail,
+
+        phone,
+
+        address,
+      });
+
+      console.log(
+        "0円注文の通知メールを送信しました"
+      );
+
+      return NextResponse.json({
+        url:
+          `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+      });
+    }
+
+    // -----------------------------
+    // 通常のStripe決済
+    // -----------------------------
+
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
       validatedItems.map((item) => ({
         price_data: {
@@ -144,9 +261,7 @@ export async function POST(req: Request) {
         quantity: item.quantity,
       }));
 
-    /*
-     * 送料
-     */
+    // 送料
     lineItems.push({
       price_data: {
         currency: "jpy",
@@ -158,9 +273,7 @@ export async function POST(req: Request) {
       quantity: 1,
     });
 
-    /*
-     * ギフト包装
-     */
+    // ギフト包装
     if (giftWrapping) {
       lineItems.push({
         price_data: {
@@ -174,9 +287,10 @@ export async function POST(req: Request) {
       });
     }
 
-    /*
-     * ギフトカード割引用Coupon
-     */
+    // -----------------------------
+    // Stripeクーポン
+    // -----------------------------
+
     let couponId: string | undefined;
 
     if (giftCardAmount > 0) {
@@ -196,9 +310,10 @@ export async function POST(req: Request) {
       couponId = coupon.id;
     }
 
-    /*
-     * Stripeに保存する注文情報
-     */
+    // -----------------------------
+    // 注文情報
+    // -----------------------------
+
     const orderMetadata = {
       gift_card_code:
         giftCardCode || "なし",
@@ -232,12 +347,18 @@ export async function POST(req: Request) {
           : "なし",
     };
 
-    /*
-     * Stripe Checkout
-     */
+    // -----------------------------
+    // Stripe Checkout
+    // -----------------------------
+
     const sessionParams: Stripe.Checkout.SessionCreateParams =
       {
         mode: "payment",
+
+        payment_method_types: [
+          "card",
+          "paypay" as any,
+        ],
 
         shipping_address_collection: {
           allowed_countries: ["JP"],
@@ -249,10 +370,11 @@ export async function POST(req: Request) {
 
         line_items: lineItems,
 
-        /*
-         * Checkout Session側のmetadata
-         */
         metadata: orderMetadata,
+
+        payment_intent_data: {
+          metadata: orderMetadata,
+        },
 
         success_url:
           `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
@@ -261,38 +383,6 @@ export async function POST(req: Request) {
           `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       };
 
-    /*
-     * 通常の決済
-     */
-    if (paymentTotal > 0) {
-      sessionParams.payment_method_types = [
-        "card",
-        "paypay" as any,
-      ];
-
-      /*
-       * PaymentIntent側のmetadata
-       */
-      sessionParams.payment_intent_data = {
-        metadata: orderMetadata,
-      };
-    }
-
-    /*
-     * 0円の場合
-     *
-     * 支払い方法を必須にしないことで、
-     * ギフトカードで全額充当された注文でも
-     * Checkout Sessionを完了できるようにする。
-     */
-    if (paymentTotal === 0) {
-      sessionParams.payment_method_collection =
-        "if_required";
-    }
-
-    /*
-     * ギフトカード割引を適用
-     */
     if (couponId) {
       sessionParams.discounts = [
         {
@@ -301,9 +391,6 @@ export async function POST(req: Request) {
       ];
     }
 
-    /*
-     * Checkout Session作成
-     */
     const session =
       await stripe.checkout.sessions.create(
         sessionParams
