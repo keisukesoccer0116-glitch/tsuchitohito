@@ -122,6 +122,14 @@ export async function POST(req: Request) {
     }
 
     /*
+     * 最終支払額
+     */
+    const paymentTotal = Math.max(
+      0,
+      total - giftCardAmount
+    );
+
+    /*
      * Stripeの商品明細
      */
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
@@ -216,7 +224,7 @@ export async function POST(req: Request) {
         total.toString(),
 
       payment_total:
-        (total - giftCardAmount).toString(),
+        paymentTotal.toString(),
 
       note:
         note.trim() !== ""
@@ -230,11 +238,6 @@ export async function POST(req: Request) {
     const sessionParams: Stripe.Checkout.SessionCreateParams =
       {
         mode: "payment",
-
-        payment_method_types: [
-          "card",
-          "paypay" as any,
-        ],
 
         shipping_address_collection: {
           allowed_countries: ["JP"],
@@ -251,19 +254,41 @@ export async function POST(req: Request) {
          */
         metadata: orderMetadata,
 
-        /*
-         * PaymentIntent側のmetadata
-         */
-        payment_intent_data: {
-          metadata: orderMetadata,
-        },
-
         success_url:
           `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
 
         cancel_url:
           `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       };
+
+    /*
+     * 通常の決済
+     */
+    if (paymentTotal > 0) {
+      sessionParams.payment_method_types = [
+        "card",
+        "paypay" as any,
+      ];
+
+      /*
+       * PaymentIntent側のmetadata
+       */
+      sessionParams.payment_intent_data = {
+        metadata: orderMetadata,
+      };
+    }
+
+    /*
+     * 0円の場合
+     *
+     * 支払い方法を必須にしないことで、
+     * ギフトカードで全額充当された注文でも
+     * Checkout Sessionを完了できるようにする。
+     */
+    if (paymentTotal === 0) {
+      sessionParams.payment_method_collection =
+        "if_required";
+    }
 
     /*
      * ギフトカード割引を適用
@@ -276,6 +301,9 @@ export async function POST(req: Request) {
       ];
     }
 
+    /*
+     * Checkout Session作成
+     */
     const session =
       await stripe.checkout.sessions.create(
         sessionParams
