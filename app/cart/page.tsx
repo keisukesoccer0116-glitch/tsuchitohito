@@ -17,6 +17,7 @@ type ShippingType =
   | "other"
   | "hokkaidoKyushu"
   | "okinawa"
+    "giftCard"
 
 const shippingPrices: Record<
   ShippingType,
@@ -25,6 +26,7 @@ const shippingPrices: Record<
   other: 1980,
   hokkaidoKyushu: 2500,
   okinawa: 3000,
+  giftCard: 770,
 };
 
 const giftWrappingPrice = 550;
@@ -718,6 +720,26 @@ export default function CartPage() {
           />
           沖縄
         </label>
+
+        <label
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    fontSize: "14px",
+    marginTop: "15px",
+  }}
+>
+  <input
+    type="radio"
+    name="shipping"
+    value="giftCard"
+    checked={shipping === "giftCard"}
+    onChange={() => setShipping("giftCard")}
+  />
+  ギフトカード単品の場合
+</label>
+
       </section>
 
       <section

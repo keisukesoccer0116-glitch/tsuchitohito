@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const allowedShippingFees = [1980, 2500, 3000];
+    const allowedShippingFees = [770, 1980, 2500, 3000];
 
     if (!allowedShippingFees.includes(shippingFee)) {
       return NextResponse.json(
