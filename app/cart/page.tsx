@@ -17,7 +17,8 @@ type ShippingType =
   | "other"
   | "hokkaidoKyushu"
   | "okinawa"
-    "giftCard"
+  |"giftCard"
+
 
 const shippingPrices: Record<
   ShippingType,
