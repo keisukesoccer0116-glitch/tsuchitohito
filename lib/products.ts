@@ -395,7 +395,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "パスタやカレーなどのメイン料理とともに。煮物などシェア料理にも。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "直径23.5cm × 高さ5.5cm",
     oven: true,
@@ -494,7 +494,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: false,
@@ -641,7 +641,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "茶漉し穴になっておりますので、茶漉し網不要でこのまま淹れることができます。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "胴体最大直径12cm × 高さ10.5cm",
     oven: false,
@@ -735,7 +735,7 @@ export const products: Product[] = [
     category: "花器",
     description:
       "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "最大直径9cm × 高さ13cm",
     oven: false,
@@ -757,7 +757,7 @@ export const products: Product[] = [
     category: "花器",
     description:
       "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても良いです。",
-    maxQuantity: 3,
+    maxQuantity: 2,
 
     size: "最大直径7cm × 高さ14cm",
     oven: false,
