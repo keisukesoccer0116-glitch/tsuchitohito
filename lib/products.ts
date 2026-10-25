@@ -221,7 +221,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "直径18cm × 高さ6.5cm",
     oven: true,
@@ -295,7 +295,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "切り身魚やカプレーゼなど趣向を変えてたまには長方形の器を。",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "約21cm × 12cm × 高さ2.5cm",
     oven: true,
@@ -320,7 +320,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "料理を取り分けるのはもちろん、前菜やお菓子を盛る一皿としても使いやすいサイズ。",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "直径21cm × 高さ3.5cm",
     oven: true,
@@ -420,7 +420,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "メイン料理、ワンプレート料理、何かをシェアする時の大皿としても重宝します。",
-    maxQuantity: 3,
+    maxQuantity: 1,
 
     size: "直径27cm × 高さ2cm",
     oven: true,
