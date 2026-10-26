@@ -757,7 +757,7 @@ export const products: Product[] = [
     category: "花器",
     description:
       "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても良いです。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "最大直径7cm × 高さ14cm",
     oven: false,
