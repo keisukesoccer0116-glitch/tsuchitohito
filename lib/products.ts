@@ -295,7 +295,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "切り身魚やカプレーゼなど趣向を変えてたまには長方形の器を。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "約21cm × 12cm × 高さ2.5cm",
     oven: true,
@@ -595,7 +595,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒もさらに美味しく味わえます",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "直径10cm × 高さ4cm",
     oven: false,
@@ -666,7 +666,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "15cm × 11cm  × 高さ7.5cm",
     oven: false,
