@@ -27,7 +27,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "コーヒーはもちろん、紅茶などにも。白は全ての色を受け止めます。",
-    maxQuantity: 4,
+    maxQuantity: 2,
 
     size: "直径8cm × 高さ6cm",
     oven: true,
@@ -51,7 +51,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "白は全ての色を受け止めます。",
-    maxQuantity: 3,
+    maxQuantity: 2,
 
     size: "直径10cm × 高さ4cm",
     oven: false,
@@ -246,7 +246,7 @@ export const products: Product[] = [
     category: "飯碗・丼",
     description:
       "ご家庭で作るインスタントラーメンもこの器で満足感たっぷり。もちろん、かつ丼・牛丼・親子丼などごはんものも合います。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径19.5cm × 高さ8cm",
     oven: true,
@@ -395,7 +395,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "パスタやカレーなどのメイン料理とともに。煮物などシェア料理にも。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "直径23.5cm × 高さ5.5cm",
     oven: true,
@@ -420,7 +420,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "メイン料理、ワンプレート料理、何かをシェアする時の大皿としても重宝します。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "直径27cm × 高さ2cm",
     oven: true,
@@ -545,7 +545,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "オーブン料理をそのまま食卓へ運べるグラタン皿。グラタンやドリアはもちろん、焼き野菜やオーブン料理にも。熱々の料理と器の表情を一緒に楽しめます。",
-    maxQuantity: 5,
+    maxQuantity: 2,
 
     size: "直径14cm × 高さ5.5cm",
     oven: true,
@@ -618,7 +618,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒もさらに美味しく味わえます",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径10cm × 高さ4cm",
     oven: false,
