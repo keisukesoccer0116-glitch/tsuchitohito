@@ -20,6 +20,52 @@ export type Product = {
 
 export const products: Product[] = [
  {
+    id: "mug-a-001",
+    name: "マグカップ（窯変白）",
+    price: 2400,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "コーヒーはもちろん、紅茶などにも。白は全ての色を受け止めます。",
+    maxQuantity: 2,
+
+    size: "直径9.5cm × 高さ7cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/mug-a-001.jpg",
+      "/products/mug-a-001-1.jpg",
+      "/products/mug-a-001-2.jpg",
+      "/products/mug-a-001-3.jpg",
+    ],
+  },
+  {
+    id: "mug-b-001",
+    name: "マグカップ大（窯変白）",
+    price: 2800,
+    origin: "益子焼（山口慶祐）",
+    category: "湯呑・カップ",
+    description:
+      "カフェオレや牛乳など、たっぷり飲みたいときに",
+    maxQuantity: 2,
+
+    size: "直径10cm × 高さ10cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/mug-b-001.jpg",
+      "/products/mug-b-001-1.jpg",
+      "/products/mug-b-001-2.jpg",
+      "/products/mug-b-001-3.jpg",
+    ],
+  },
+  {
     id: "coffee-a-001",
     name: "コーヒーカップ（窯変白）",
     price: 2400,
@@ -27,7 +73,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "コーヒーはもちろん、紅茶などにも。白は全ての色を受け止めます。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径8cm × 高さ6cm",
     oven: true,
@@ -51,7 +97,7 @@ export const products: Product[] = [
     category: "湯呑・カップ",
     description:
       "白は全ての色を受け止めます。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径10cm × 高さ4cm",
     oven: false,
@@ -147,7 +193,7 @@ export const products: Product[] = [
     category: "飯碗・丼",
     description:
       "白いごはんが引き立つ黒釉。開いた形は、卵かけごはんが食べやすい。また他にも何かを盛れるように少し大きめの飯碗です。",
-    maxQuantity: 5,
+    maxQuantity: 1,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: true,
@@ -191,13 +237,13 @@ export const products: Product[] = [
 
    {
     id: "nandemo-b-001",
-    name: "なんでも受け止める器（黒・緑釉流れ）",
+    name: "リム皿（黒・緑釉流れ）",
     price: 3300,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
     description:
       "何でも乗せられる器を目指しました。洗い物を減らしたい朝ごはんやお昼ごはん、サッと済ませたいときにも重宝します。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "直径21cm × 高さ5cm",
     oven: true,
@@ -215,7 +261,7 @@ export const products: Product[] = [
 
   {
     id: "nandemo-a-001",
-    name: "なんでも受け止める器（白）",
+    name: "中鉢（白）",
     price: 2800,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
@@ -295,7 +341,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "切り身魚やカプレーゼなど趣向を変えてたまには長方形の器を。",
-    maxQuantity: 0,
+    maxQuantity: 2,
 
     size: "約21cm × 12cm × 高さ2.5cm",
     oven: true,
@@ -420,7 +466,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "メイン料理、ワンプレート料理、何かをシェアする時の大皿としても重宝します。",
-    maxQuantity: 0,
+    maxQuantity: 1,
 
     size: "直径27cm × 高さ2cm",
     oven: true,
@@ -444,7 +490,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "ほどよい深さがあり、サラダや煮物、アサイーなど幅広い料理に使えるボウル。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径14.5cm × 高さ6.5cm",
     oven: false,
@@ -570,7 +616,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "オーブン料理をそのまま食卓へ運べるグラタン皿。グラタンやドリアはもちろん、焼き野菜やオーブン料理にも。熱々の料理と器の表情を一緒に楽しめます。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "直径14cm × 高さ6cm",
     oven: true,
@@ -618,7 +664,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒もさらに美味しく味わえます",
-    maxQuantity: 0,
+    maxQuantity: 2,
 
     size: "直径10cm × 高さ4cm",
     oven: false,
@@ -641,7 +687,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "茶漉し穴になっておりますので、茶漉し網不要でこのまま淹れることができます。",
-    maxQuantity: 1,
+    maxQuantity: 0,
 
     size: "胴体最大直径12cm × 高さ10.5cm",
     oven: false,
@@ -666,7 +712,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
-    maxQuantity: 0,
+    maxQuantity: 1,
 
     size: "15cm × 11cm  × 高さ7.5cm",
     oven: false,
@@ -689,7 +735,7 @@ export const products: Product[] = [
     category: "その他",
     description:
       "日本酒は、酒瓶から注ぐより片口から注ぐと気持ちが高まります。もちろんオリジナルのドレッシングを注ぐ時にも重宝します。",
-    maxQuantity: 0,
+    maxQuantity: 1,
 
     size: "15cm × 11cm  × 高さ7.5cm",
     oven: false,
@@ -703,7 +749,50 @@ export const products: Product[] = [
       "/products/katakuchi-a-001-2.jpg",
     ],
   },
+{
+    id: "flower-pink-a-001",
+    name: "花器つぼみ型（薄ピンク）",
+    price: 6600,
+    origin: "益子焼（山口慶祐）",
+    category: "花器",
+    description:
+      "束でお花を生けたいときに。※長時間水を入れたままにすると滲みることがあります。花台や敷物をご利用ください。",
+    maxQuantity: 1,
 
+    size: "上部直径7cm × 高さ25cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/flower-pink-a-001.jpg",
+      "/products/flower-pink-a-001-1.jpg",
+      "/products/flower-pink-a-001-2.jpg",
+    ],
+  },
+  {
+    id: "flower-pink-b-001",
+    name: "花器鶴首（薄ピンク）",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "花器",
+    description:
+      "枝ものなどを生けたいときに。※長時間水を入れたままにすると滲みることがあります。花台や敷物をご利用ください。",
+    maxQuantity: 1,
+
+    size: "上部直径5cm × 高さ24cm",
+    oven: false,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/flower-pink-b-001.jpg",
+      "/products/flower-pink-b-001-1.jpg",
+      "/products/flower-pink-b-001-2.jpg",
+    ],
+  },
   {
     id: "flower-small-a-001",
     name: "一輪挿し（飴色）",
@@ -711,7 +800,7 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "花器",
     description:
-      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
+      "一輪の草花をそっと受け止める小さな花器。※長時間水を入れたままにすると滲みることがあります。花台や敷物をご利用ください。",
     maxQuantity: 0,
 
     size: "最大直径9cm × 高さ13cm",
@@ -734,7 +823,7 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "花器",
     description:
-      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても置ける渋可愛いを目指しました。",
+      "一輪の草花をそっと受け止める小さな花器。※長時間水を入れたままにすると滲みることがあります。花台や敷物をご利用ください。",
     maxQuantity: 0,
 
     size: "最大直径9cm × 高さ13cm",
@@ -756,7 +845,7 @@ export const products: Product[] = [
     origin: "益子焼（山口慶祐）",
     category: "花器",
     description:
-      "一輪の草花をそっと受け止める小さな花器。何も入れずにオブジェとしても良いです。",
+      "一輪の草花をそっと受け止める小さな花器。※長時間水を入れたままにすると滲みることがあります。花台や敷物をご利用ください。",
     maxQuantity: 0,
 
     size: "最大直径7cm × 高さ14cm",
@@ -776,7 +865,7 @@ export const products: Product[] = [
     name: "蚊取り線香（棒付き）",
     price: 2400,
     origin: "益子焼（山口慶祐）",
-    category: "花器",
+    category: "その他",
     description:
       "蚊取り線香置きに",
     maxQuantity: 2,
@@ -792,6 +881,94 @@ export const products: Product[] = [
       "/products/katori-a-001-1.jpg",
       "/products/katori-a-001-2.jpg",
       "/products/katori-a-001-3.jpg",
+    ],
+  },
+  {
+    id: "tannkachoko-001",
+    name: "おちょこ（炭化焼無釉）",
+    price: 4400,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "日本酒や小物入れでも。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
+    maxQuantity: 2,
+
+    size: "直径9cm × 高さ3.5cm",
+    oven: false,
+    microwave: false,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/tannkachoko-001.jpg",
+      "/products/tannkachoko-001-1.jpg",
+      "/products/tannkachoko-001-2.jpg",
+    ],
+  },
+  {
+    id: "tannkacup-001",
+    name: "ビアカップ（炭化焼無釉）",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "細かい気泡でビールがさらに美味しくなります。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
+    maxQuantity: 2,
+
+    size: "直径9cm × 高さ3.5cm",
+    oven: false,
+    microwave: false,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/tannkacup-001.jpg",
+      "/products/tannkacup-001-1.jpg",
+      "/products/tannkacup-001-2.jpg",
+    ],
+  },
+  {
+    id: "tannkadaenn-001",
+    name: "楕円皿（炭化焼無釉）",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "おつまみやくだもの、メガネなどの小物入れにも。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
+    maxQuantity: 2,
+
+    size: "17.5cm × 10.5cm × 高さ2.5cm",
+    oven: false,
+    microwave: false,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/tannkadaenn-001.jpg",
+      "/products/tannkadaenn-001-1.jpg",
+      "/products/tannkadaenn-001-2.jpg",
+    ],
+  },
+  {
+    id: "tannkaplate-001",
+    name: "丸皿（炭化焼無釉）",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "おつまみやくだもの、小物入れにも。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
+    maxQuantity: 2,
+
+    size: "18cm × 高さ2cm",
+    oven: false,
+    microwave: false,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/tannkaplate-001.jpg",
+      "/products/tannkaplate-001-1.jpg",
+      "/products/tannkaplate-001-2.jpg",
     ],
   },
 ];
