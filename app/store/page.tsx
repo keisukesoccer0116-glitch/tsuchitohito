@@ -42,7 +42,6 @@ export default function Home() {
 
   return (
     <main style={{ padding: "100px 20px 80px" }}>
-      {/* 商品一覧 */}
       <div
         style={{
           maxWidth: "1200px",
@@ -50,6 +49,41 @@ export default function Home() {
           paddingTop: "120px",
         }}
       >
+        {/* SOLD OUT商品についてのお知らせ */}
+        <div
+          style={{
+            textAlign: "center",
+            padding: "24px 15px",
+            marginBottom: "55px",
+            color: "#444",
+            fontSize: "13px",
+            lineHeight: "2.2",
+            fontWeight: 400,
+          }}
+        >
+          <div
+            style={{
+              fontSize: "14px",
+              letterSpacing: "0.08em",
+              marginBottom: "12px",
+            }}
+          >
+            SOLD OUTの商品について
+          </div>
+
+          <p style={{ margin: 0 }}>
+            SOLD OUTの商品につきましては、受注制作にて承っております。
+          </p>
+
+          <p style={{ margin: 0 }}>
+            制作期間として2〜3ヶ月ほどお時間を頂戴いたします。
+          </p>
+
+          <p style={{ margin: 0 }}>
+            ご希望のお客様は、InstagramまたはEメールよりお問い合わせください。
+          </p>
+        </div>
+
         {/* 選択中カテゴリー */}
         {selectedCategory !== "すべて" && (
           <div
@@ -63,6 +97,7 @@ export default function Home() {
           </div>
         )}
 
+        {/* 商品一覧 */}
         <div
           style={{
             display: "grid",
