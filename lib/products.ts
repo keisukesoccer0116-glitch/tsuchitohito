@@ -304,7 +304,6 @@ export const products: Product[] = [
       "/products/ramen-001.jpg",
       "/products/ramen-001-1.jpg",
       "/products/ramen-001-2.jpg",
-      "/products/ramen-001-3.jpg",
       "/products/ramen-001-4.jpg",
     ],
   },
@@ -565,7 +564,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: false,
@@ -915,7 +914,7 @@ export const products: Product[] = [
       "細かい気泡でビールがさらに美味しくなります。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
     maxQuantity: 2,
 
-    size: "直径9cm × 高さ3.5cm",
+    size: "直径9cm × 高さ10cm",
     oven: false,
     microwave: false,
     dishwasher: true,
