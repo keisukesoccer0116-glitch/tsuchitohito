@@ -381,6 +381,30 @@ export const products: Product[] = [
       "/products/plate-medium-001-4.jpg",
     ],
   },
+  {
+    id: "platewhite-001",
+    name: "中皿",
+    price: 5500,
+    origin: "益子焼（山口慶祐）",
+    category: "皿・プレート",
+    description:
+      "ワンプレートや皆さんでシェアする時に",
+    maxQuantity: 0,
+
+    size: "直径25.5cm × 高さ1.5cm",
+    oven: true,
+    microwave: true,
+    dishwasher: true,
+    directFire: false,
+
+    images: [
+      "/products/platewhite-001.jpg",
+      "/products/platewhite-001-1.jpg",
+      "/products/platewhite-001-2.jpg",
+      "/products/platewhite-001-3.jpg",
+      "/products/platewhite-001-4.jpg",
+    ],
+  },
 
    {
     id: "cake-small-001",
@@ -968,6 +992,29 @@ export const products: Product[] = [
       "/products/tannkaplate-001.jpg",
       "/products/tannkaplate-001-1.jpg",
       "/products/tannkaplate-001-2.jpg",
+    ],
+  },
+  {
+    id: "tannkatsubo-001",
+    name: "壺（炭化焼無釉）",
+    price: 48000,
+    origin: "益子焼（山口慶祐）",
+    category: "その他",
+    description:
+      "※亀裂が入っておりますが水は漏れません。※こちらは無釉のため使用後は乾燥状態で保管してください。長時間水分を入れますと滲みることがあります。",
+    maxQuantity: 1,
+
+    size: "口径15.5cm × 高さ26.5cm",
+    oven: false,
+    microwave: false,
+    dishwasher: false,
+    directFire: false,
+
+    images: [
+      "/products/tannkatsubo-001.jpg",
+      "/products/tannkatsubo-001-1.jpg",
+      "/products/tannkatsubo-001-2.jpg",
+      "/products/tannkatsubo-001-3.jpg",
     ],
   },
 ];
