@@ -340,7 +340,7 @@ export const products: Product[] = [
     category: "皿・プレート",
     description:
       "切り身魚やカプレーゼなど趣向を変えてたまには長方形の器を。",
-    maxQuantity: 2,
+    maxQuantity: 1,
 
     size: "約21cm × 12cm × 高さ2.5cm",
     oven: true,
@@ -538,7 +538,7 @@ export const products: Product[] = [
     category: "鉢・ボウル",
     description:
       "亀甲状に貫入が入っております。使うほどに少しずつ表情が変化していきます。器を育てる、その景色をお楽しみください。開いた形で使いやすく、ほどよい深さがあり、サラダや煮物やスープ料理にも合います。",
-    maxQuantity: 2,
+    maxQuantity: 0,
 
     size: "直径15.5cm × 高さ6.5cm",
     oven: false,
