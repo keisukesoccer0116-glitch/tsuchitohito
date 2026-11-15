@@ -1,222 +1,264 @@
-"use client";
-
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
-type CartItem = {
-  id: string;
-  quantity: number;
+export const metadata = {
+  title: "ORDER｜ご注文・制作のご相談｜つちとひと",
+  description:
+    "つちとひとでは、既存作品の再制作や飲食店・店舗様向けの器の制作を承っております。",
 };
 
-const categories = [
-  "すべて",
-  "湯呑・カップ",
-  "飯碗・丼",
-  "皿・プレート",
-  "鉢・ボウル",
-  "花器",
-  "その他",
-];
-
-export default function Header() {
-  const [count, setCount] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
-
-  const isStorePage = pathname === "/store";
-
-  useEffect(() => {
-    const updateCount = () => {
-      const stored = localStorage.getItem("cart");
-
-      if (!stored) {
-        setCount(0);
-        return;
-      }
-
-      try {
-        const cart: CartItem[] = JSON.parse(stored);
-
-        const total = cart.reduce(
-          (sum, item) => sum + item.quantity,
-          0
-        );
-
-        setCount(total);
-      } catch {
-        setCount(0);
-      }
-    };
-
-    updateCount();
-
-    window.addEventListener("storage", updateCount);
-    window.addEventListener("cartUpdated", updateCount);
-
-    return () => {
-      window.removeEventListener("storage", updateCount);
-      window.removeEventListener("cartUpdated", updateCount);
-    };
-  }, [pathname]);
-
-  const handleCategoryClick = (category: string) => {
-    window.dispatchEvent(
-      new CustomEvent("categoryChange", {
-        detail: category,
-      })
-    );
-
-    setMenuOpen(false);
-  };
-
-  const navStyle = {
-    textDecoration: "none",
-    color: "inherit",
-    whiteSpace: "nowrap" as const,
-  };
-
+export default function OrderPage() {
   return (
-    <>
-      <header
+    <main
+      style={{
+        padding: "160px 24px 100px",
+        color: "#333",
+      }}
+    >
+      <div
         style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100%",
-          borderBottom: "1px solid #ddd",
-          background: "#ffffff",
-          zIndex: 1000,
+          maxWidth: "900px",
+          margin: "0 auto",
         }}
       >
+        {/* タイトル */}
         <div
           style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            textAlign: "center",
+            marginBottom: "100px",
           }}
         >
-          {/* 左側 */}
-          <div
+          <h1
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
+              fontSize: "28px",
+              fontWeight: 400,
+              letterSpacing: "0.15em",
+              marginBottom: "18px",
             }}
           >
-            {/* ショップページのみカテゴリー表示 */}
-            {isStorePage && (
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                aria-label="カテゴリーを開く"
-                aria-expanded={menuOpen}
-                style={{
-                  background: "none",
-                  border: "none",
-                  fontSize: "28px",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
-              >
-                ☰
-              </button>
-            )}
+            ORDER
+          </h1>
 
-            {/* ロゴ */}
-            <Link
-              href="/"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              <h1
-                style={{
-                  fontSize: "18px",
-                  margin: 0,
-                  fontWeight: 400,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                つちとひと
-              </h1>
-            </Link>
-          </div>
-
-          {/* 右側メニュー */}
-          <nav
+          <p
             style={{
-              display: "flex",
-              gap: "20px",
-              alignItems: "center",
               fontSize: "13px",
+              letterSpacing: "0.12em",
+              color: "#888",
             }}
           >
-            <Link href="/store" style={navStyle}>
-              SHOP
-            </Link>
-
-            <Link href="/order" style={navStyle}>
-              ORDER
-            </Link>
-
-            <Link href="/journal" style={navStyle}>
-              JOURNAL
-            </Link>
-
-            <Link href="/contact" style={navStyle}>
-              CONTACT
-            </Link>
-
-            <Link href="/cart" style={navStyle}>
-              🛒 ({count})
-            </Link>
-          </nav>
+            ご注文・制作のご相談
+          </p>
         </div>
-      </header>
 
-      {/* カテゴリーメニュー */}
-      {isStorePage && menuOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: "70px",
-            left: 0,
-            width: "260px",
-            height: "calc(100vh - 70px)",
-            background: "#fff",
-            borderRight: "1px solid #ddd",
-            padding: "30px",
-            zIndex: 999,
-            boxSizing: "border-box",
-          }}
-        >
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCategoryClick(category)}
+        {/* はじめに */}
+        <section style={{ marginBottom: "90px" }}>
+          <p
+            style={{
+              fontSize: "15px",
+              lineHeight: 2.5,
+              letterSpacing: "0.06em",
+              textAlign: "center",
+            }}
+          >
+            つちとひとでは、既存作品の再制作や、
+            <br />
+            飲食店・店舗様でお使いいただく器の制作を承っております。
+            <br />
+            ご希望や用途に合わせて、一つひとつ丁寧に制作いたします。
+          </p>
+        </section>
+
+        {/* 再制作 */}
+        <section style={{ marginBottom: "90px" }}>
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: 400,
+              letterSpacing: "0.12em",
+              marginBottom: "28px",
+              borderBottom: "1px solid #ddd",
+              paddingBottom: "16px",
+            }}
+          >
+            既存作品の再制作
+          </h2>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 2.4,
+              letterSpacing: "0.04em",
+              marginBottom: "20px",
+            }}
+          >
+            オンラインショップでSOLD OUTとなっている作品につきましては、
+            再制作のご相談を承っております。
+          </p>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 2.4,
+              letterSpacing: "0.04em",
+            }}
+          >
+            制作期間は、目安として2〜3ヶ月ほどお時間を頂戴しております。
+            また、手仕事による制作のため、色味や形状、表情には一点ごとの違いが生まれます。
+            あらかじめご了承ください。
+          </p>
+        </section>
+
+        {/* 飲食店向け */}
+        <section style={{ marginBottom: "90px" }}>
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: 400,
+              letterSpacing: "0.12em",
+              marginBottom: "28px",
+              borderBottom: "1px solid #ddd",
+              paddingBottom: "16px",
+            }}
+          >
+            飲食店・店舗様からのご注文
+          </h2>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 2.4,
+              letterSpacing: "0.04em",
+              marginBottom: "20px",
+            }}
+          >
+            飲食店や料理店、その他店舗様でご使用いただく器の制作も承っております。
+          </p>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 2.4,
+              letterSpacing: "0.04em",
+            }}
+          >
+            お料理やお店の雰囲気、使用目的などをお伺いしながら、
+            器の形状や数量についてご相談させていただきます。
+            継続的なお取引についても、お気軽にお問い合わせください。
+          </p>
+        </section>
+
+        {/* ご注文の流れ */}
+        <section style={{ marginBottom: "100px" }}>
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: 400,
+              letterSpacing: "0.12em",
+              marginBottom: "28px",
+              borderBottom: "1px solid #ddd",
+              paddingBottom: "16px",
+            }}
+          >
+            ご注文の流れ
+          </h2>
+
+          {[
+            ["01", "お問い合わせ", "フォームよりご希望の内容をお知らせください。"],
+            ["02", "内容の確認", "ご希望の器や数量、用途などを確認いたします。"],
+            ["03", "お見積もり", "制作内容に応じて、お見積もりをご案内いたします。"],
+            ["04", "制作・納品", "内容にご了承いただいた後、制作を進めてまいります。"],
+          ].map(([number, title, description]) => (
+            <div
+              key={number}
               style={{
-                display: "block",
-                width: "100%",
-                marginBottom: "18px",
-                padding: 0,
-                background: "none",
-                border: "none",
-                textAlign: "left",
-                fontFamily: "inherit",
-                fontSize: "14px",
-                color: "#222",
-                cursor: "pointer",
+                display: "flex",
+                gap: "24px",
+                padding: "22px 0",
+                borderBottom: "1px solid #eee",
               }}
             >
-              {category}
-            </button>
+              <span
+                style={{
+                  fontSize: "14px",
+                  color: "#999",
+                  minWidth: "25px",
+                }}
+              >
+                {number}
+              </span>
+
+              <div>
+                <h3
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 400,
+                    marginBottom: "10px",
+                  }}
+                >
+                  {title}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: "13px",
+                    lineHeight: 2,
+                    color: "#777",
+                  }}
+                >
+                  {description}
+                </p>
+              </div>
+            </div>
           ))}
-        </div>
-      )}
-    </>
+        </section>
+
+        {/* お問い合わせ */}
+        <section
+          style={{
+            textAlign: "center",
+            paddingTop: "20px",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "20px",
+              fontWeight: 400,
+              letterSpacing: "0.12em",
+              marginBottom: "24px",
+            }}
+          >
+            お問い合わせ
+          </h2>
+
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 2.3,
+              color: "#777",
+              marginBottom: "35px",
+            }}
+          >
+            制作やご注文についてのご相談は、
+            <br />
+            下記よりお問い合わせください。
+          </p>
+
+          <Link
+            href="/contact"
+            style={{
+              display: "inline-block",
+              padding: "16px 60px",
+              border: "1px solid #333",
+              color: "#333",
+              textDecoration: "none",
+              fontSize: "13px",
+              letterSpacing: "0.12em",
+              transition: "0.3s",
+            }}
+          >
+            CONTACT
+          </Link>
+        </section>
+      </div>
+    </main>
   );
 }
