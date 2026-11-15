@@ -49,37 +49,18 @@ export default function Header() {
       }
     };
 
-    // 初回読み込み
     updateCount();
 
-    // 別タブ・別ウィンドウでカートが変更された場合
-    window.addEventListener(
-      "storage",
-      updateCount
-    );
-
-    // 同じサイト内でカートが変更された場合
-    window.addEventListener(
-      "cartUpdated",
-      updateCount
-    );
+    window.addEventListener("storage", updateCount);
+    window.addEventListener("cartUpdated", updateCount);
 
     return () => {
-      window.removeEventListener(
-        "storage",
-        updateCount
-      );
-
-      window.removeEventListener(
-        "cartUpdated",
-        updateCount
-      );
+      window.removeEventListener("storage", updateCount);
+      window.removeEventListener("cartUpdated", updateCount);
     };
   }, [pathname]);
 
-  const handleCategoryClick = (
-    category: string
-  ) => {
+  const handleCategoryClick = (category: string) => {
     window.dispatchEvent(
       new CustomEvent("categoryChange", {
         detail: category,
@@ -87,6 +68,12 @@ export default function Header() {
     );
 
     setMenuOpen(false);
+  };
+
+  const navStyle = {
+    textDecoration: "none",
+    color: "inherit",
+    whiteSpace: "nowrap" as const,
   };
 
   return (
@@ -120,13 +107,12 @@ export default function Header() {
               gap: "16px",
             }}
           >
-            {/* ショップページのみハンバーガー表示 */}
+            {/* ショップページのみカテゴリー表示 */}
             {isStorePage && (
               <button
-                onClick={() =>
-                  setMenuOpen(!menuOpen)
-                }
+                onClick={() => setMenuOpen(!menuOpen)}
                 aria-label="カテゴリーを開く"
+                aria-expanded={menuOpen}
                 style={{
                   background: "none",
                   border: "none",
@@ -139,7 +125,7 @@ export default function Header() {
               </button>
             )}
 
-            {/* つちとひと → プロフィール */}
+            {/* ロゴ */}
             <Link
               href="/"
               style={{
@@ -152,6 +138,7 @@ export default function Header() {
                   fontSize: "18px",
                   margin: 0,
                   fontWeight: 400,
+                  whiteSpace: "nowrap",
                 }}
               >
                 つちとひと
@@ -159,35 +146,33 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* 右側 */}
+          {/* 右側メニュー */}
           <nav
             style={{
               display: "flex",
-              gap: "24px",
+              gap: "20px",
               alignItems: "center",
-              fontSize: "14px",
+              fontSize: "13px",
             }}
           >
-            {/* ショップ */}
-            <Link
-              href="/store"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              ショップ
+            <Link href="/store" style={navStyle}>
+              SHOP
             </Link>
 
-            {/* カート */}
-            <Link
-              href="/cart"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              🛒 カート ({count})
+            <Link href="/order" style={navStyle}>
+              ORDER
+            </Link>
+
+            <Link href="/journal" style={navStyle}>
+              JOURNAL
+            </Link>
+
+            <Link href="/contact" style={navStyle}>
+              CONTACT
+            </Link>
+
+            <Link href="/cart" style={navStyle}>
+              🛒 ({count})
             </Link>
           </nav>
         </div>
@@ -212,9 +197,7 @@ export default function Header() {
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() =>
-                handleCategoryClick(category)
-              }
+              onClick={() => handleCategoryClick(category)}
               style={{
                 display: "block",
                 width: "100%",
@@ -231,7 +214,7 @@ export default function Header() {
             >
               {category}
             </button>
-         ))}
+          ))}
         </div>
       )}
     </>
