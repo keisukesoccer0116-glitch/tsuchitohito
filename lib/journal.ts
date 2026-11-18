@@ -14,7 +14,7 @@ export const journalArticles: JournalArticle[] = [
     title: "益子町「和食 杣」で、私が作った器をお使いいただいています",
     date: "2026.11.17",
     category: "日々の暮らし",
-    thumbnail: "/wasyoku-soma-photos/soma-01.jpeg",
+    thumbnail: "/wasyoku-soma-photos/soma-01.jpg",
     images: [
       "/wasyoku-soma-photos/soma-01.jpg",
       "/wasyoku-soma-photos/soma-02.jpg",
