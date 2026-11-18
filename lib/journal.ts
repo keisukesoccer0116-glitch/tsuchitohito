@@ -10,17 +10,17 @@ export type JournalArticle = {
 
 export const journalArticles: JournalArticle[] = [
   {
-    slug: "washoku-soma",
+    slug: "wasyoku-soma",
     title: "益子町「和食 杣」で、私が作った器をお使いいただいています",
     date: "2026.11.17",
     category: "日々の暮らし",
-    thumbnail: "/washoku-soma-photos/soma-01.jpeg",
+    thumbnail: "/wasyoku-soma-photos/soma-01.jpeg",
     images: [
-      "/washoku-soma-photos/soma-01.jpeg",
-      "/washoku-soma-photos/soma-02.jpeg",
-      "/washoku-soma-photos/soma-03.jpeg",
-      "/washoku-soma-photos/soma-04.jpeg",
-      "/washoku-soma-photos/soma-05.jpeg",
+      "/wasyoku-soma-photos/soma-01.jpg",
+      "/wasyoku-soma-photos/soma-02.jpg",
+      "/wasyoku-soma-photos/soma-03.jpg",
+      "/wasyoku-soma-photos/soma-04.jpg",
+      "/wasyoku-soma-photos/soma-05.jpg",
     ],
     content: [
       "栃木県益子町にある「和食 杣」様に、私が制作した器をお使いいただいています。",
