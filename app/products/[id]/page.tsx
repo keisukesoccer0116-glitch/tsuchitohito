@@ -16,8 +16,10 @@ export default function ProductPage() {
   const [mainImage, setMainImage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
+  const isGiftCard = product?.category === "ギフトカード";
+
   useEffect(() => {
-    if (product) {
+    if (product && product.images.length > 0) {
       setMainImage(product.images[0]);
     }
   }, [product]);
@@ -36,7 +38,11 @@ export default function ProductPage() {
   }, []);
 
   if (!product) {
-    return <div style={{ padding: "40px" }}>商品が見つかりません</div>;
+    return (
+      <div style={{ padding: "40px" }}>
+        商品が見つかりません
+      </div>
+    );
   }
 
   const max = product.maxQuantity ?? 10;
@@ -89,43 +95,47 @@ export default function ProductPage() {
       >
         {/* 左：画像 */}
         <div style={{ flex: 1 }}>
-          <img
-            src={mainImage || product.images[0]}
-            alt={product.name}
-            style={{
-              width: "100%",
-              aspectRatio: "1 / 1",
-              objectFit: "cover",
-              marginBottom: "16px",
-            }}
-          />
-
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              flexWrap: "wrap",
-            }}
-          >
-            {product.images.map((img) => (
+          {product.images.length > 0 && (
+            <>
               <img
-                key={img}
-                src={img}
+                src={mainImage || product.images[0]}
                 alt={product.name}
-                onClick={() => setMainImage(img)}
                 style={{
-                  width: "80px",
-                  height: "80px",
+                  width: "100%",
+                  aspectRatio: "1 / 1",
                   objectFit: "cover",
-                  cursor: "pointer",
-                  border:
-                    mainImage === img
-                      ? "2px solid #222"
-                      : "1px solid #ddd",
+                  marginBottom: "16px",
                 }}
               />
-            ))}
-          </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  flexWrap: "wrap",
+                }}
+              >
+                {product.images.map((img) => (
+                  <img
+                    key={img}
+                    src={img}
+                    alt={product.name}
+                    onClick={() => setMainImage(img)}
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                      cursor: "pointer",
+                      border:
+                        mainImage === img
+                          ? "2px solid #222"
+                          : "1px solid #ddd",
+                    }}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </div>
 
         {/* 右：情報 */}
@@ -175,7 +185,72 @@ export default function ProductPage() {
               marginBottom: "30px",
             }}
           >
-            {product.description}
+            {isGiftCard ? (
+              <>
+                <p style={{ marginBottom: "20px" }}>
+                  大切な方への贈り物に、つちとひとのギフトカードはいかがでしょうか。
+                </p>
+
+                <p style={{ marginBottom: "20px" }}>
+                  贈られた方が、ご自身の好みに合わせてお好きな器をお選びいただけます。
+                </p>
+
+                <p style={{ marginBottom: "30px" }}>
+                  ギフトカードには、オンラインストアで使用できる専用コードが記載されています。また、実店舗でもご利用いただけます。
+                </p>
+
+                <h3
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    marginBottom: "12px",
+                  }}
+                >
+                  お届けについて
+                </h3>
+
+                <p style={{ marginBottom: "20px" }}>
+                  <strong>通常配送の場合</strong>
+                  <br />
+                  ギフトカードを台紙と封筒にセットした状態で、ご購入者様のご住所へお届けいたします。
+                </p>
+
+                <p style={{ marginBottom: "30px" }}>
+                  <strong>ギフト包装の場合</strong>
+                  <br />
+                  贈り先へ直接お届けする場合は、ご購入時に「ギフト包装」をお選びください。ギフト包装を施した状態で、ご指定の住所へお届けいたします。
+                </p>
+
+                <h3
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    marginBottom: "12px",
+                  }}
+                >
+                  ご利用にあたって
+                </h3>
+
+                <ul
+                  style={{
+                    paddingLeft: "20px",
+                    margin: 0,
+                  }}
+                >
+                  <li>有効期限はございません。</li>
+
+                  <li>
+                    ギフトカードの残高は繰り越しできません。
+                  </li>
+
+                  <li>
+                    ギフトカードの金額を超える場合は、差額を別途お支払いいただくことでご利用いただけます。
+                  </li>
+                </ul>
+              </>
+            ) : (
+              product.description
+            )}
           </div>
 
           {/* 数量選択 */}
@@ -270,9 +345,7 @@ export default function ProductPage() {
             disabled={soldOut}
             style={{
               padding: "14px 28px",
-              background: soldOut
-                ? "#ddd"
-                : "#222",
+              background: soldOut ? "#ddd" : "#222",
               color: "#fff",
               border: "none",
               cursor: soldOut
@@ -286,98 +359,103 @@ export default function ProductPage() {
               : "カートに入れる"}
           </button>
 
-          {/* 商品仕様 */}
-          <div
-            style={{
-              marginTop: "40px",
-              paddingTop: "30px",
-              borderTop: "1px solid #ddd",
-              fontSize: "14px",
-              lineHeight: 1.9,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "16px",
-                fontWeight: 400,
-                marginBottom: "20px",
-              }}
-            >
-              商品仕様
-            </h2>
-
-            <div style={{ marginBottom: "16px" }}>
+          {/* 商品仕様・陶器のみ */}
+          {!isGiftCard && (
+            <>
               <div
                 style={{
-                  color: "#777",
-                  marginBottom: "4px",
+                  marginTop: "40px",
+                  paddingTop: "30px",
+                  borderTop: "1px solid #ddd",
+                  fontSize: "14px",
+                  lineHeight: 1.9,
                 }}
               >
-                サイズ
-              </div>
-              <div>{product.size}</div>
-            </div>
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 400,
+                    marginBottom: "20px",
+                  }}
+                >
+                  商品仕様
+                </h2>
 
-            <div>
+                <div style={{ marginBottom: "16px" }}>
+                  <div
+                    style={{
+                      color: "#777",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    サイズ
+                  </div>
+
+                  <div>{product.size}</div>
+                </div>
+
+                <div>
+                  <div
+                    style={{
+                      color: "#777",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    対応可否
+                  </div>
+
+                  <div>
+                    オーブン：
+                    {product.oven ? "○" : "×"}
+                    <br />
+                    電子レンジ：
+                    {product.microwave ? "○" : "×"}
+                    <br />
+                    食器洗い洗浄機：
+                    {product.dishwasher ? "○" : "×"}
+                    <br />
+                    直火：
+                    {product.directFire ? "○" : "×"}
+                  </div>
+                </div>
+              </div>
+
+              {/* 注意点 */}
               <div
                 style={{
-                  color: "#777",
-                  marginBottom: "4px",
+                  marginTop: "40px",
+                  paddingTop: "30px",
+                  borderTop: "1px solid #ddd",
+                  fontSize: "13px",
+                  color: "#666",
+                  lineHeight: 2,
                 }}
               >
-                対応可否
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 400,
+                    color: "#555",
+                    marginBottom: "20px",
+                  }}
+                >
+                  注意点
+                </h2>
+
+                <p style={{ margin: 0 }}>
+                  商品画像とお届けする商品は全く同じではございません。
+                  <br />
+                  大きさ、形、色、模様、風合いなどは、1点1点異なります。
+                  <br />
+                  貫入（表面に入る模様のようなヒビ）、ピンホール（小さな穴）、鉄粉（鉄分が焼かれることによって酸化し黒点となった状態）、釉薬のムラなどの個体差をうつわの個性、うつわの表情として、捉えていただけない方のご購入はご遠慮願います。
+                  <br />
+                  お客様のご都合によるキャンセル・返品・交換はお受けしておりません。
+                  <br />
+                  もし形やラインが全て整った量産品の器をお探しの場合は、当店での購入はお控えください。
+                </p>
               </div>
-
-              <div>
-                オーブン：
-                {product.oven ? "○" : "×"}
-                <br />
-                電子レンジ：
-                {product.microwave ? "○" : "×"}
-                <br />
-                食器洗い洗浄機：
-                {product.dishwasher ? "○" : "×"}
-                <br />
-                直火：
-                {product.directFire ? "○" : "×"}
-              </div>
-            </div>
-          </div>
-
-          {/* 注意点 */}
-          <div
-            style={{
-              marginTop: "40px",
-              paddingTop: "30px",
-              borderTop: "1px solid #ddd",
-              fontSize: "13px",
-              color: "#666",
-              lineHeight: 2,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: "16px",
-                fontWeight: 400,
-                color: "#555",
-                marginBottom: "20px",
-              }}
-            >
-              注意点
-            </h2>
-
-            <p style={{ margin: 0 }}>
-              商品画像とお届けする商品は全く同じではございません。
-              <br />
-              大きさ、形、色、模様、風合いなどは、1点1点異なります。
-              <br />
-              貫入（表面に入る模様のようなヒビ）、ピンホール（小さな穴）、鉄粉（鉄分が焼かれることによって酸化し黒点となった状態）、釉薬のムラなどの個体差をうつわの個性、うつわの表情として、捉えていただけない方のご購入はご遠慮願います。
-              <br />
-              お客様のご都合によるキャンセル・返品・交換はお受けしておりません。
-              <br />
-              もし形やラインが全て整った量産品の器をお探しの場合は、当店での購入はお控えください。
-            </p>
-          </div>
+            </>
+          )}
 
           {/* 戻る */}
           <div style={{ marginTop: "30px" }}>
