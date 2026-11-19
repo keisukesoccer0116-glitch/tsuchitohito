@@ -339,7 +339,7 @@ export const products: Product[] = [
 {
     id: "pastaao-001",
     name: "パスタ皿・カレー皿（青霞）",
-    price: 3800,
+    price: 4400,
     origin: "益子焼（山口慶祐）",
     category: "鉢・ボウル",
     description:
